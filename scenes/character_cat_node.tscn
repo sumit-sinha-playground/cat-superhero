@@ -166,6 +166,8 @@ animations = [{
 radius = 44.0
 height = 158.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nux03"]
+
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_blbq1"]
 distance = 25.0
 
@@ -175,19 +177,23 @@ distance = 25.0
 script = ExtResource("1_nux03")
 
 [node name="walking_cat_animation_2D" type="AnimatedSprite2D" parent="walking_cat_character_body_2D" unique_id=238136100]
+position = Vector2(-32, 138)
 sprite_frames = SubResource("SpriteFrames_fbwgr")
 animation = &"walk"
-frame_progress = 0.10125697
+frame_progress = 0.7170856
 
 [node name="walking_cat_collision_shape_2D" type="CollisionShape2D" parent="walking_cat_character_body_2D" unique_id=1237924521]
-position = Vector2(0, 16)
+position = Vector2(-24, 168)
 shape = SubResource("CapsuleShape2D_sqa16")
 
 [node name="walking_car_camera_2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=1439162629]
 position = Vector2(-54, 4)
 
 [node name="floor_static_body_2D" type="StaticBody2D" parent="." unique_id=1865466316]
+position = Vector2(-2, 12)
 
 [node name="floor_collision_shape_2D" type="CollisionShape2D" parent="floor_static_body_2D" unique_id=1221304110]
-position = Vector2(-24, 266)
+material = SubResource("CanvasItemMaterial_nux03")
+position = Vector2(0, 338)
 shape = SubResource("WorldBoundaryShape2D_blbq1")
+debug_color = Color(0.19164884, 0.5930742, 0.6802907, 0.41960785)
