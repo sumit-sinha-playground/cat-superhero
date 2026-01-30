@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://baskejubk8qsw"]
+
+[ext_resource type="Texture2D" uid="uid://dyoelvgc7ql5i" path="res://assets/buildings.png" id="1_tjxth"]
+[ext_resource type="PackedScene" uid="uid://42ttixwt4pbn" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_6p05r"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nux03"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_blbq1"]
+distance = 25.0
+
+[node name="level_suburbs" type="Node2D" unique_id=1989083950]
+
+[node name="floor_static_body_2D" type="StaticBody2D" parent="." unique_id=1865466316]
+position = Vector2(-2, 12)
+
+[node name="floor_collision_shape_2D" type="CollisionShape2D" parent="floor_static_body_2D" unique_id=1221304110]
+material = SubResource("CanvasItemMaterial_nux03")
+position = Vector2(0, 338)
+shape = SubResource("WorldBoundaryShape2D_blbq1")
+debug_color = Color(0.19164884, 0.5930742, 0.6802907, 0.41960785)
+
+[node name="floor_sprite_2D" type="Sprite2D" parent="floor_static_body_2D" unique_id=721897433]
+position = Vector2(-4, -374)
+scale = Vector2(1.4676514, 2.3262746)
+texture = ExtResource("1_tjxth")
+
+[node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("2_6p05r")]

@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bprlcsorj12vw"]
+
+[ext_resource type="PackedScene" uid="uid://42ttixwt4pbn" path="res://scenes/walking_cat_character_body_2d.tscn" id="1_6ddxd"]
+
+[node name="LevelTree" type="Node2D" unique_id=474309052]
+
+[node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("1_6ddxd")]
