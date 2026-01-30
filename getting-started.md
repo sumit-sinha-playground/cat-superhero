@@ -4,7 +4,7 @@ The example level is very hard coded. Hopefully we can generate the different pl
 
 You can run this level by selecting it and then clicking run current scene.
 
-[how to run](./getting-started.png)
+![how to run](./getting-started.png)
 
 Main tasks:
 * [Maryem] Create tree level - there will be a central tree trunk (that the cat can't collide with). The cat jumps from branch to branch until it saves the person at the top of the tree. Branches could break to make it more difficult.
