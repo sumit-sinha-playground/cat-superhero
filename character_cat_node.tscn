@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://baskejubk8qsw"]
+
+[ext_resource type="Script" uid="uid://c1gvb10m0o8d" path="res://walking_cat_character_body_2d.gd" id="1_blbq1"]
+[ext_resource type="Texture2D" uid="uid://bnmyh8cg8c8je" path="res://Idle (1).png" id="2_ah4ww"]
+[ext_resource type="Texture2D" uid="uid://bmou0l45ulywk" path="res://Idle (2).png" id="3_yl0tx"]
+[ext_resource type="Texture2D" uid="uid://d2anv47dih2sq" path="res://Idle (3).png" id="4_7klye"]
+[ext_resource type="Texture2D" uid="uid://dwkj5vph11mbu" path="res://Idle (4).png" id="5_p32qs"]
+[ext_resource type="Texture2D" uid="uid://ck6qkynjrcm4o" path="res://Idle (5).png" id="6_0020k"]
+[ext_resource type="Texture2D" uid="uid://c6o7wi7rnfvij" path="res://Idle (6).png" id="7_ugnvo"]
+[ext_resource type="Texture2D" uid="uid://bcr4twr57yrr4" path="res://Idle (7).png" id="8_xsmel"]
+[ext_resource type="Texture2D" uid="uid://cm0lr0xxgbguy" path="res://Idle (8).png" id="9_hyhea"]
+[ext_resource type="Texture2D" uid="uid://duu6qo7ru6kp6" path="res://Idle (9).png" id="10_41k6i"]
+[ext_resource type="Texture2D" uid="uid://c3k0ulcq04367" path="res://Idle (10).png" id="11_qtvwq"]
+[ext_resource type="Texture2D" uid="uid://ca2ho4noh3gdb" path="res://Jump (1).png" id="12_o5dcp"]
+[ext_resource type="Texture2D" uid="uid://dds7aaattgmmk" path="res://Jump (2).png" id="13_0hajg"]
+[ext_resource type="Texture2D" uid="uid://qvv6udbmacfe" path="res://Jump (3).png" id="14_nk4ds"]
+[ext_resource type="Texture2D" uid="uid://blv8jjsbrj6l1" path="res://Jump (4).png" id="15_xn7lo"]
+[ext_resource type="Texture2D" uid="uid://b41i7gwi5ophn" path="res://Jump (5).png" id="16_0y4l2"]
+[ext_resource type="Texture2D" uid="uid://dw5q8rn8pjcg8" path="res://Jump (6).png" id="17_m651d"]
+[ext_resource type="Texture2D" uid="uid://buvlpmhbajchy" path="res://Jump (7).png" id="18_maxjs"]
+[ext_resource type="Texture2D" uid="uid://cyjlbqsjxb5g1" path="res://Jump (8).png" id="19_02cl5"]
+[ext_resource type="Texture2D" uid="uid://bao6ep5f7pj4x" path="res://Walk (1).png" id="20_a8jaf"]
+[ext_resource type="Texture2D" uid="uid://cnhau0c7o8ywi" path="res://Walk (2).png" id="21_tuij3"]
+[ext_resource type="Texture2D" uid="uid://cam7tkmlgofpo" path="res://Walk (3).png" id="22_bkhko"]
+[ext_resource type="Texture2D" uid="uid://bpfu7xox6owfi" path="res://Walk (4).png" id="23_qv6w8"]
+[ext_resource type="Texture2D" uid="uid://dbeuuqcje47m" path="res://Walk (5).png" id="24_0vsil"]
+[ext_resource type="Texture2D" uid="uid://c1ybeu7jbhyiw" path="res://Walk (6).png" id="25_7vux6"]
+[ext_resource type="Texture2D" uid="uid://bunjc8oxpni6n" path="res://Walk (7).png" id="26_8vgkr"]
+[ext_resource type="Texture2D" uid="uid://yysltfhaot7l" path="res://Walk (8).png" id="27_tt3t7"]
+[ext_resource type="Texture2D" uid="uid://dpb5u4e0qya1k" path="res://Walk (9).png" id="28_7prok"]
+[ext_resource type="Texture2D" uid="uid://c21of44p1vud2" path="res://Walk (10).png" id="29_w8kso"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fbwgr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ah4ww")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yl0tx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_7klye")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_p32qs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_0020k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_ugnvo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_xsmel")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_hyhea")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_41k6i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_qtvwq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_41k6i")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_o5dcp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_0hajg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_nk4ds")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_xn7lo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_0y4l2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_m651d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_maxjs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_02cl5")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("20_a8jaf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_tuij3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_bkhko")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_qv6w8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_0vsil")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_7vux6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_8vgkr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_tt3t7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_7prok")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_w8kso")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 16.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sqa16"]
+radius = 95.0
+height = 392.0
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_blbq1"]
+distance = 25.0
+
+[node name="Node2D" type="Node2D" unique_id=1989083950]
+
+[node name="walking_cat_character_body_2D" type="CharacterBody2D" parent="." unique_id=802020475]
+script = ExtResource("1_blbq1")
+
+[node name="walking_cat_animation_2D" type="AnimatedSprite2D" parent="walking_cat_character_body_2D" unique_id=238136100]
+sprite_frames = SubResource("SpriteFrames_fbwgr")
+animation = &"walk"
+frame_progress = 0.5622459
+
+[node name="walking_cat_collision_shape_2D" type="CollisionShape2D" parent="walking_cat_character_body_2D" unique_id=1237924521]
+position = Vector2(-32, 4)
+shape = SubResource("CapsuleShape2D_sqa16")
+
+[node name="walking_car_camera_2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=1439162629]
+position = Vector2(-54, 4)
+
+[node name="floor_static_body_2D" type="StaticBody2D" parent="." unique_id=1865466316]
+
+[node name="floor_collision_shape_2D" type="CollisionShape2D" parent="floor_static_body_2D" unique_id=1221304110]
+position = Vector2(-24, 266)
+shape = SubResource("WorldBoundaryShape2D_blbq1")
