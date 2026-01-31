@@ -6,28 +6,28 @@
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6ruvh"]
 
 [node name="suburbs_main" type="Node2D" unique_id=1470342674]
-position = Vector2(-638, -171)
-
-[node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("2_6p05r")]
-position = Vector2(920, 3907)
-
-[node name="Camera2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=492348267]
-limit_top = 0
-limit_bottom = 4000
-position_smoothing_enabled = true
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1814085310]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1756495045]
-position = Vector2(25, 2548)
 motion_mirroring = Vector2(2816, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1706100515]
 texture = ExtResource("2_be5pb")
 centered = false
 
-[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=1426682197]
-position = Vector2(-1301, 4156)
+[node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("2_6p05r")]
+position = Vector2(1408, 1350)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=530651345]
+[node name="Camera2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=492348267]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_bottom = 1536
+position_smoothing_enabled = true
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1426682197]
+position = Vector2(0, 1400)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=530651345]
 shape = SubResource("WorldBoundaryShape2D_6ruvh")
