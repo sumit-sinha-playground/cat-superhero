@@ -54,12 +54,15 @@ func _ready() -> void:
 	await get_tree().create_timer(1.0).timeout
 	camera.position.y = initial_camera_position
 
+	_goal_node.get_node("AnimatedSprite2D").play()
 	$Cat.enable_input()
 	$CanvasLayer/UserInterface/Timer.start()
 
 func _on_goal_reached(body):
 	if body == $Cat:
 		$ThanksAudio.play()
+		_goal_node.get_node("AnimatedSprite2D").frame = 2
+		_goal_node.get_node("AnimatedSprite2D").pause()
 		$CanvasLayer/UserInterface/Timer.stop()
 
 func _on_menu_button_pressed() -> void:
