@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://m04jpab4e7pe"]
+
+[ext_resource type="Texture2D" uid="uid://dg2w3r7y8xe5h" path="res://assets/buildings/storey_1.png" id="1_j5ehs"]
+[ext_resource type="Script" uid="uid://vac2uvdtfdx4" path="res://scripts/buildings/storey.gd" id="1_tv0ca"]
+[ext_resource type="Texture2D" uid="uid://caqi21fvkcimh" path="res://assets/buildings/storey_2.png" id="2_tv0ca"]
+[ext_resource type="Texture2D" uid="uid://cxhmjndmoqtnt" path="res://assets/buildings/storey_3.png" id="3_o7txg"]
+[ext_resource type="Texture2D" uid="uid://defqdlg5vhrko" path="res://assets/buildings/storey_4.png" id="4_28im0"]
+[ext_resource type="Texture2D" uid="uid://c1anjjr0l6ly" path="res://assets/buildings/storey_5.png" id="5_uswmm"]
+[ext_resource type="PackedScene" uid="uid://bwbhlblgooyt8" path="res://scenes/buildings/window.tscn" id="6_vp2cj"]
+
+[node name="Storey" type="Node2D" unique_id=168576146]
+script = ExtResource("1_tv0ca")
+
+[node name="Storey1" type="Sprite2D" parent="." unique_id=909688858]
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("1_j5ehs")
+
+[node name="Storey2" type="Sprite2D" parent="." unique_id=1756361612]
+visible = false
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("2_tv0ca")
+
+[node name="Storey3" type="Sprite2D" parent="." unique_id=991071587]
+visible = false
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("3_o7txg")
+
+[node name="Storey4" type="Sprite2D" parent="." unique_id=972219445]
+visible = false
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("4_28im0")
+
+[node name="Storey5" type="Sprite2D" parent="." unique_id=874747471]
+visible = false
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("5_uswmm")
+
+[node name="Window1" parent="." unique_id=1014796266 instance=ExtResource("6_vp2cj")]
+position = Vector2(-310, 0)
+
+[node name="Window2" parent="." unique_id=607939772 instance=ExtResource("6_vp2cj")]
+
+[node name="Window3" parent="." unique_id=663321296 instance=ExtResource("6_vp2cj")]
+position = Vector2(310, 0)

@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://bwbhlblgooyt8"]
+
+[ext_resource type="Script" uid="uid://i3utbbnmcxvm" path="res://scripts/buildings/window.gd" id="1_8gn0o"]
+[ext_resource type="Texture2D" uid="uid://dcdbm7pm504hi" path="res://assets/buildings/windows_1_1.png" id="1_ue6hi"]
+[ext_resource type="Texture2D" uid="uid://dh3j01dj7huu6" path="res://assets/buildings/windows_1_2.png" id="2_8gn0o"]
+[ext_resource type="Texture2D" uid="uid://bdmjhylv8slmj" path="res://assets/buildings/windows_1_3.png" id="3_xepyp"]
+[ext_resource type="Texture2D" uid="uid://c1yd2q1kn8cyj" path="res://assets/buildings/windows_2_1.png" id="4_wt6gw"]
+[ext_resource type="Texture2D" uid="uid://bhdrtqjqni6ag" path="res://assets/buildings/windows_2_2.png" id="5_umcj5"]
+[ext_resource type="Texture2D" uid="uid://faopvqsj3t6p" path="res://assets/buildings/windows_3_1.png" id="6_g1ats"]
+[ext_resource type="Texture2D" uid="uid://t4do3ru0vpvt" path="res://assets/buildings/windows_3_2.png" id="7_miwbd"]
+[ext_resource type="Texture2D" uid="uid://c5sn2dj4bhrli" path="res://assets/buildings/windows_3_3.png" id="8_s2spp"]
+[ext_resource type="Texture2D" uid="uid://dlu7n12o24rbv" path="res://assets/buildings/windows_4_1.png" id="9_c3t7y"]
+[ext_resource type="Texture2D" uid="uid://dwc5sy174iydu" path="res://assets/buildings/windows_5_1.png" id="10_5xjww"]
+[ext_resource type="Texture2D" uid="uid://bbope7rfjqf4o" path="res://assets/buildings/windows_5_2.png" id="11_7xp6v"]
+[ext_resource type="Texture2D" uid="uid://bmm1iios0l1t7" path="res://assets/buildings/windows_5_3.png" id="12_km2vo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h3bvp"]
+size = Vector2(106, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6u2ib"]
+size = Vector2(106, 11)
+
+[node name="Window" type="StaticBody2D" unique_id=1014796266]
+scale = Vector2(1.75, 1.75)
+script = ExtResource("1_8gn0o")
+
+[node name="Windows11" type="Sprite2D" parent="." unique_id=849178051]
+position = Vector2(6, 0)
+texture = ExtResource("1_ue6hi")
+
+[node name="Windows12" type="Sprite2D" parent="." unique_id=273661754]
+visible = false
+texture = ExtResource("2_8gn0o")
+
+[node name="Windows13" type="Sprite2D" parent="." unique_id=1632838036]
+visible = false
+texture = ExtResource("3_xepyp")
+
+[node name="Windows21" type="Sprite2D" parent="." unique_id=257266889]
+visible = false
+texture = ExtResource("4_wt6gw")
+
+[node name="Windows22" type="Sprite2D" parent="." unique_id=1490980542]
+visible = false
+texture = ExtResource("5_umcj5")
+
+[node name="Windows31" type="Sprite2D" parent="." unique_id=380817427]
+visible = false
+texture = ExtResource("6_g1ats")
+
+[node name="Windows32" type="Sprite2D" parent="." unique_id=1811761711]
+visible = false
+texture = ExtResource("7_miwbd")
+
+[node name="Windows33" type="Sprite2D" parent="." unique_id=619917045]
+visible = false
+texture = ExtResource("8_s2spp")
+
+[node name="Windows41" type="Sprite2D" parent="." unique_id=1243420831]
+visible = false
+texture = ExtResource("9_c3t7y")
+
+[node name="Windows51" type="Sprite2D" parent="." unique_id=514994007]
+visible = false
+texture = ExtResource("10_5xjww")
+
+[node name="Windows52" type="Sprite2D" parent="." unique_id=2145570918]
+visible = false
+texture = ExtResource("11_7xp6v")
+
+[node name="Windows53" type="Sprite2D" parent="." unique_id=1093406379]
+visible = false
+texture = ExtResource("12_km2vo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665085467]
+position = Vector2(0, 100)
+shape = SubResource("RectangleShape2D_h3bvp")
+one_way_collision = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1755709556]
+position = Vector2(0, -123.42856)
+shape = SubResource("RectangleShape2D_6u2ib")
+one_way_collision = true

@@ -13,6 +13,8 @@ config_version=5
 config/name="cat-superhero"
 run/main_scene="uid://baskejubk8qsw"
 config/features=PackedStringArray("4.6", "Forward Plus")
+boot_splash/bg_color=Color(1, 1, 1, 1)
+boot_splash/image="uid://gogdmuq8gyfj"
 config/icon="uid://gogdmuq8gyfj"
 
 [display]
@@ -26,3 +28,4 @@ window/size/mode=3
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+environment/defaults/default_clear_color=Color(0.56078434, 0.78039217, 0.83137256, 1)

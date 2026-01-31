@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://da2kf502yy4y4"]
+
+[ext_resource type="Script" uid="uid://ca74200hfiut" path="res://scripts/buildings/roof.gd" id="1_or225"]
+[ext_resource type="Texture2D" uid="uid://du61wlonvpix" path="res://assets/buildings/roof_1.png" id="2_lw60f"]
+[ext_resource type="Texture2D" uid="uid://bfl22cb8wm83x" path="res://assets/buildings/roof_2.png" id="3_ds6vd"]
+[ext_resource type="Texture2D" uid="uid://c57q7wf1uhonp" path="res://assets/buildings/roof_3.png" id="4_a2vmm"]
+[ext_resource type="Texture2D" uid="uid://bxydlwrl2jyjh" path="res://assets/buildings/roof_4.png" id="5_ok5p6"]
+[ext_resource type="Texture2D" uid="uid://6s60g31rv1lv" path="res://assets/buildings/roof_5.png" id="6_cfusp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kj7lp"]
+size = Vector2(987, 60)
+
+[node name="Roof" type="StaticBody2D" unique_id=288746133]
+script = ExtResource("1_or225")
+
+[node name="Roof1" type="Sprite2D" parent="." unique_id=1524382887]
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("2_lw60f")
+
+[node name="Roof2" type="Sprite2D" parent="." unique_id=66554825]
+visible = false
+position = Vector2(0, 0.99999994)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("3_ds6vd")
+
+[node name="Roof3" type="Sprite2D" parent="." unique_id=175148668]
+visible = false
+position = Vector2(0, 0.99999994)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("4_a2vmm")
+
+[node name="Roof4" type="Sprite2D" parent="." unique_id=1247905397]
+visible = false
+position = Vector2(0, 1.9999998)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("5_ok5p6")
+
+[node name="Roof5" type="Sprite2D" parent="." unique_id=98050770]
+visible = false
+position = Vector2(-0.99999994, 11.999998)
+scale = Vector2(1.75, 1.75)
+texture = ExtResource("6_cfusp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1139439915]
+position = Vector2(-0.5, -9)
+shape = SubResource("RectangleShape2D_kj7lp")
+one_way_collision = true

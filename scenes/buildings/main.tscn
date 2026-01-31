@@ -1,0 +1,176 @@
+[gd_scene format=3 uid="uid://djxrbfx3o1n1f"]
+
+[ext_resource type="Script" uid="uid://dohvpw70vob4x" path="res://scripts/buildings/main.gd" id="1_p8fij"]
+[ext_resource type="Texture2D" uid="uid://b3qav0ok4sd1j" path="res://assets/buildings/floor.png" id="1_u7u6e"]
+[ext_resource type="PackedScene" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_p8fij"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_exv1i"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_p3trv"]
+distance = -1329.143
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pssxw"]
+distance = -1329.143
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_exv1i"]
+size = Vector2(128, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_etw43"]
+size = Vector2(128, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xnywi"]
+size = Vector2(128, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f3l0w"]
+size = Vector2(128, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_35s2e"]
+size = Vector2(128, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rcbm5"]
+size = Vector2(128, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6h5qi"]
+size = Vector2(106, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_21n4v"]
+size = Vector2(106, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_15hvv"]
+size = Vector2(106, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hya6i"]
+size = Vector2(106, 11)
+
+[node name="Buildings" type="Node2D" unique_id=1270865614]
+script = ExtResource("1_p8fij")
+
+[node name="World" type="Node2D" parent="." unique_id=5817039]
+position = Vector2(0, -761)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="World" unique_id=60664598]
+scale = Vector2(1.75, 1.75)
+
+[node name="Floor" type="Sprite2D" parent="World/StaticBody2D" unique_id=124380370]
+position = Vector2(4.8570557, 125)
+texture = ExtResource("1_u7u6e")
+
+[node name="floor" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=343785146]
+position = Vector2(0, 344)
+shape = SubResource("WorldBoundaryShape2D_exv1i")
+
+[node name="left" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=1792629193]
+position = Vector2(-74.85747, 343.99994)
+rotation = 1.5707964
+scale = Vector2(0.99999994, 0.99999994)
+shape = SubResource("WorldBoundaryShape2D_p3trv")
+
+[node name="right" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=305960201]
+position = Vector2(83.428635, 343.99997)
+rotation = -1.5707964
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("WorldBoundaryShape2D_pssxw")
+
+[node name="window_1" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=821414680]
+position = Vector2(-1303.1426, 89.5)
+shape = SubResource("RectangleShape2D_exv1i")
+one_way_collision = true
+
+[node name="window_2" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=516806962]
+position = Vector2(-1127.1426, 89.5)
+shape = SubResource("RectangleShape2D_etw43")
+one_way_collision = true
+
+[node name="window_3" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=411242162]
+position = Vector2(-740.1427, 89.5)
+shape = SubResource("RectangleShape2D_xnywi")
+one_way_collision = true
+
+[node name="window_4" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=1381354246]
+position = Vector2(-552.14307, 89.5)
+shape = SubResource("RectangleShape2D_f3l0w")
+one_way_collision = true
+
+[node name="window_5" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=384948877]
+position = Vector2(-176.1427, 89.5)
+shape = SubResource("RectangleShape2D_35s2e")
+one_way_collision = true
+
+[node name="window_6" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=712857754]
+position = Vector2(-0.14294434, 89.5)
+shape = SubResource("RectangleShape2D_rcbm5")
+one_way_collision = true
+
+[node name="window_7" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=1275100798]
+position = Vector2(385.85693, 89.5)
+shape = SubResource("RectangleShape2D_6h5qi")
+one_way_collision = true
+
+[node name="window_8" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=2128673301]
+position = Vector2(561.85693, 89.5)
+shape = SubResource("RectangleShape2D_21n4v")
+one_way_collision = true
+
+[node name="window_9" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=918970356]
+position = Vector2(1136.857, 89.5)
+shape = SubResource("RectangleShape2D_15hvv")
+one_way_collision = true
+
+[node name="window_10" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=315383007]
+position = Vector2(1312.8568, 89.5)
+shape = SubResource("RectangleShape2D_hya6i")
+one_way_collision = true
+
+[node name="window_11" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=2042068504]
+position = Vector2(-1303.1426, -156.7857)
+shape = SubResource("RectangleShape2D_exv1i")
+one_way_collision = true
+
+[node name="window_12" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=618070675]
+position = Vector2(-1127.1426, -156.7857)
+shape = SubResource("RectangleShape2D_etw43")
+one_way_collision = true
+
+[node name="window_13" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=1744422097]
+position = Vector2(-740.1427, -156.7857)
+shape = SubResource("RectangleShape2D_xnywi")
+one_way_collision = true
+
+[node name="window_14" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=467267791]
+position = Vector2(-552.14307, -156.7857)
+shape = SubResource("RectangleShape2D_f3l0w")
+one_way_collision = true
+
+[node name="window_15" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=2056926809]
+position = Vector2(-176.1427, -156.7857)
+shape = SubResource("RectangleShape2D_35s2e")
+one_way_collision = true
+
+[node name="window_16" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=949124552]
+position = Vector2(-0.14294434, -156.7857)
+shape = SubResource("RectangleShape2D_rcbm5")
+one_way_collision = true
+
+[node name="window_17" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=1783044558]
+position = Vector2(385.85693, -156.7857)
+shape = SubResource("RectangleShape2D_6h5qi")
+one_way_collision = true
+
+[node name="window_18" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=443475943]
+position = Vector2(561.85693, -156.7857)
+shape = SubResource("RectangleShape2D_21n4v")
+one_way_collision = true
+
+[node name="window_19" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=253222121]
+position = Vector2(1136.857, -156.7857)
+shape = SubResource("RectangleShape2D_15hvv")
+one_way_collision = true
+
+[node name="window_20" type="CollisionShape2D" parent="World/StaticBody2D" unique_id=286409270]
+position = Vector2(1312.8568, -156.7857)
+shape = SubResource("RectangleShape2D_hya6i")
+one_way_collision = true
+
+[node name="Cat" parent="." unique_id=916024553 instance=ExtResource("2_p8fij")]
+position = Vector2(32, -422)
+jump_velocity = -1000.0
