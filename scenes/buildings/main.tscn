@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b3qav0ok4sd1j" path="res://assets/buildings/floor.png" id="1_u7u6e"]
 [ext_resource type="PackedScene" uid="uid://bxi3khsucrwi" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_p8fij"]
 [ext_resource type="PackedScene" uid="uid://co3g0lfeq0wt3" path="res://scenes/menu/transition.tscn" id="4_8n6v3"]
+[ext_resource type="PackedScene" uid="uid://cga368s3pidw7" path="res://scenes/buildings/stopwatch.tscn" id="4_p3trv"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_exv1i"]
 
@@ -190,17 +191,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Timer" type="Label" parent="CanvasLayer/UserInterface" unique_id=1959586689]
+[node name="Timer" parent="CanvasLayer/UserInterface" unique_id=1465637631 instance=ExtResource("4_p3trv")]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -90.0
-offset_bottom = 17.0
-grow_horizontal = 0
-text = "Hello world"
-horizontal_alignment = 2
-vertical_alignment = 1
+offset_left = -278.0
+offset_bottom = 76.0
 
 [node name="MenuButton" type="Button" parent="CanvasLayer/UserInterface" unique_id=184987530]
 layout_mode = 1

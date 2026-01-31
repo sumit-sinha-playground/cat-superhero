@@ -32,13 +32,20 @@ func _ready() -> void:
 		
 	_goal_node = _goal_scene.instantiate()
 	_goal_node.position = Vector2(_initial_x, _initial_y - _storeys*_storey_height - 230)
+	_goal_node.body_entered.connect(_on_goal_reached)
 	world.add_child(_goal_node)
 	
 	var camera = $Cat/walking_car_camera_2D
+	camera.zoom = Vector2(0.5, 0.5)
 	camera.limit_left = _initial_x - _buildings*_storey_width/2
 	camera.limit_right = _initial_x + _buildings*_storey_width/2
 	camera.limit_bottom = 0
 
+	$CanvasLayer/UserInterface/Timer.start()
+
+func _on_goal_reached(body):
+	if body == $Cat:
+		$CanvasLayer/UserInterface/Timer.stop()
 
 func _on_menu_button_pressed() -> void:
 	$CanvasLayer/Transition.transition_to("res://scenes/menu/main.tscn")
