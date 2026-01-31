@@ -15,6 +15,7 @@ var _roof_scene = load("res://scenes/buildings/roof.tscn")
 var _goal_scene = load("res://scenes/buildings/goal.tscn")
 
 func _ready() -> void:
+	$Cat.disable_input()
 	var world = $World
 	for i in _buildings:
 		for j in _storeys:
@@ -40,11 +41,24 @@ func _ready() -> void:
 	camera.limit_left = _initial_x - _buildings*_storey_width/2
 	camera.limit_right = _initial_x + _buildings*_storey_width/2
 	camera.limit_bottom = 0
+	
+	await get_tree().create_timer(2.0).timeout
+	var initial_camera_position = camera.position.y
+	while camera.position.y > _goal_node.position.y:
+		camera.position.y -= 10
+		await get_tree().create_timer(0.01).timeout
+		
+	await get_tree().create_timer(0.5).timeout
+	$HelpAudio.play()
+	await get_tree().create_timer(1.0).timeout
+	camera.position.y = initial_camera_position
 
+	$Cat.enable_input()
 	$CanvasLayer/UserInterface/Timer.start()
 
 func _on_goal_reached(body):
 	if body == $Cat:
+		$ThanksAudio.play()
 		$CanvasLayer/UserInterface/Timer.stop()
 
 func _on_menu_button_pressed() -> void:

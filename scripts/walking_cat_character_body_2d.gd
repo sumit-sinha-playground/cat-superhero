@@ -3,6 +3,8 @@ extends CharacterBody2D
 @export var speed: float = 800.0
 @export var jump_velocity: float = -800.0
 
+var input_enabled = true
+
 # Get the gravity from the project settings
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -18,7 +20,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# 2. Handle Jump (Space Bar)
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if input_enabled and Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
 		anim.play("jump")
 		sfx_jump.play() # Play jump once
@@ -26,7 +28,7 @@ func _physics_process(delta):
 	# 3. Get Movement Input (Left/Right)
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
-	if direction:
+	if input_enabled and direction:
 		velocity.x = direction * speed
 		anim.flip_h = direction < 0
 		
@@ -66,3 +68,9 @@ func manage_audio(direction: float):
 			sfx_run.stop()
 		if sfx_idle.playing:
 			sfx_idle.stop()
+			
+func enable_input():
+	input_enabled = true
+	
+func disable_input():
+	input_enabled = false
