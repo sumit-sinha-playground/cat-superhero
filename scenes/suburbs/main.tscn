@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://ba1embercx8c4"]
 
 [ext_resource type="PackedScene" uid="uid://42ttixwt4pbn" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_6p05r"]
-[ext_resource type="Texture2D" uid="uid://33800ap3jdge" path="res://assets/suburbs.png" id="2_be5pb"]
+[ext_resource type="Texture2D" uid="uid://33800ap3jdge" path="res://assets/suburbs/background.png" id="2_be5pb"]
+[ext_resource type="AudioStream" uid="uid://xm8o13tikvoo" path="res://assets/suburbs/background.mp3" id="3_6ruvh"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6ruvh"]
 
@@ -31,3 +32,7 @@ position = Vector2(0, 1400)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=530651345]
 shape = SubResource("WorldBoundaryShape2D_6ruvh")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=348838954]
+stream = ExtResource("3_6ruvh")
+autoplay = true

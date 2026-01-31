@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://33800ap3jdge"
-path="res://.godot/imported/suburbs.png-44e727b81f036c8133efa8aae78fe249.ctex"
+path="res://.godot/imported/background.png-d71ba12952f72c47d4b49aa6d0fbd7d3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/suburbs.png"
-dest_files=["res://.godot/imported/suburbs.png-44e727b81f036c8133efa8aae78fe249.ctex"]
+source_file="res://assets/suburbs/background.png"
+dest_files=["res://.godot/imported/background.png-d71ba12952f72c47d4b49aa6d0fbd7d3.ctex"]
 
 [params]
 
