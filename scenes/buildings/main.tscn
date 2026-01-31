@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b3qav0ok4sd1j" path="res://assets/buildings/floor.png" id="1_u7u6e"]
 [ext_resource type="PackedScene" uid="uid://bxi3khsucrwi" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_p8fij"]
 [ext_resource type="PackedScene" uid="uid://co3g0lfeq0wt3" path="res://scenes/menu/transition.tscn" id="4_8n6v3"]
+[ext_resource type="AudioStream" uid="uid://yjbyhqkxaukq" path="res://assets/buildings/background.mp3" id="4_olm3d"]
 [ext_resource type="PackedScene" uid="uid://cga368s3pidw7" path="res://scenes/buildings/stopwatch.tscn" id="4_p3trv"]
 [ext_resource type="AudioStream" uid="uid://dy4aoy3ju8nve" path="res://assets/buildings/help.mp3" id="4_pssxw"]
 [ext_resource type="AudioStream" uid="uid://kq6lqbcv0bj6" path="res://assets/buildings/thanks.mp3" id="5_o7kih"]
@@ -179,6 +180,9 @@ one_way_collision = true
 position = Vector2(32, -422)
 jump_velocity = -1000.0
 
+[node name="BackgroundAudio" type="AudioStreamPlayer" parent="." unique_id=1055424439]
+stream = ExtResource("4_olm3d")
+
 [node name="HelpAudio" type="AudioStreamPlayer" parent="." unique_id=2115069911]
 stream = ExtResource("4_pssxw")
 
@@ -207,5 +211,7 @@ offset_bottom = 82.0
 text = "Menu"
 
 [node name="Transition" parent="CanvasLayer" unique_id=2123586616 instance=ExtResource("4_8n6v3")]
+visible = false
+custom_minimum_size = Vector2(-0.66, 0)
 
 [connection signal="pressed" from="CanvasLayer/UserInterface/MenuButton" to="." method="_on_menu_button_pressed"]

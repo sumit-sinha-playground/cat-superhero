@@ -4,6 +4,7 @@ extends TextureRect
 @onready var _transition_audio = $TransitionAudio
 
 func _ready() -> void:
+	visible = true
 	_animation_player.play_backwards("spin")
 	await _animation_player.animation_finished
 	_transition_audio.stop()

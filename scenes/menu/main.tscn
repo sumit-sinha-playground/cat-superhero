@@ -91,9 +91,8 @@ layout_mode = 2
 text = "New York"
 
 [node name="Transition" parent="." unique_id=2123586616 instance=ExtResource("4_ynvfx")]
+visible = false
 layout_mode = 1
-expand_mode = 1
-stretch_mode = 5
 
 [connection signal="pressed" from="Menu/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="Menu/LevelContainer/TreeButton" to="." method="_on_tree_button_pressed"]

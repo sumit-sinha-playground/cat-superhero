@@ -16,6 +16,7 @@ var _goal_scene = load("res://scenes/buildings/goal.tscn")
 
 func _ready() -> void:
 	$Cat.disable_input()
+	$BackgroundAudio.play()
 	var world = $World
 	for i in _buildings:
 		for j in _storeys:
