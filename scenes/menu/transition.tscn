@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://co3g0lfeq0wt3"]
+
+[ext_resource type="Texture2D" uid="uid://gogdmuq8gyfj" path="res://assets/logo.png" id="1_ap0ip"]
+[ext_resource type="Script" uid="uid://x5v2byjmk2ov" path="res://scripts/menu/transition.gd" id="2_st1yx"]
+
+[sub_resource type="Animation" id="Animation_box2j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_gmxck"]
+resource_name = "spin"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(50, 50)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 25.132741228718345]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ec7jh"]
+_data = {
+&"RESET": SubResource("Animation_box2j"),
+&"spin": SubResource("Animation_gmxck")
+}
+
+[node name="Transition" type="TextureRect" unique_id=2123586616]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.5
+offset_top = -98.0
+offset_right = 102.5
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(102, 98)
+mouse_filter = 2
+texture = ExtResource("1_ap0ip")
+stretch_mode = 3
+script = ExtResource("2_st1yx")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=386775066]
+libraries/ = SubResource("AnimationLibrary_ec7jh")

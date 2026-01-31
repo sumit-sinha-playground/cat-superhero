@@ -15,7 +15,7 @@ var _roof_scene = load("res://scenes/buildings/roof.tscn")
 var _goal_scene = load("res://scenes/buildings/goal.tscn")
 
 func _ready() -> void:
-	var world = get_node("World")
+	var world = $World
 	for i in _buildings:
 		for j in _storeys:
 			var s = _storey_scene.instantiate()
@@ -34,11 +34,11 @@ func _ready() -> void:
 	_goal_node.position = Vector2(_initial_x, _initial_y - _storeys*_storey_height - 230)
 	world.add_child(_goal_node)
 	
-	
-	get_node("Cat/walking_car_camera_2D").limit_left = _initial_x - _buildings*_storey_width/2
-	get_node("Cat/walking_car_camera_2D").limit_right = _initial_x + _buildings*_storey_width/2
-	get_node("Cat/walking_car_camera_2D").limit_bottom = 0
+	var camera = $Cat/walking_car_camera_2D
+	camera.limit_left = _initial_x - _buildings*_storey_width/2
+	camera.limit_right = _initial_x + _buildings*_storey_width/2
+	camera.limit_bottom = 0
 
 
 func _on_menu_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/menu/main.tscn")
+	$CanvasLayer/Transition.transition_to("res://scenes/menu/main.tscn")

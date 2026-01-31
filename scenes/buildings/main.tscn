@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://dohvpw70vob4x" path="res://scripts/buildings/main.gd" id="1_p8fij"]
 [ext_resource type="Texture2D" uid="uid://b3qav0ok4sd1j" path="res://assets/buildings/floor.png" id="1_u7u6e"]
 [ext_resource type="PackedScene" uid="uid://bxi3khsucrwi" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_p8fij"]
+[ext_resource type="PackedScene" uid="uid://co3g0lfeq0wt3" path="res://scenes/menu/transition.tscn" id="4_8n6v3"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_exv1i"]
 
@@ -206,5 +207,7 @@ layout_mode = 1
 offset_right = 373.0
 offset_bottom = 82.0
 text = "Menu"
+
+[node name="Transition" parent="CanvasLayer" unique_id=2123586616 instance=ExtResource("4_8n6v3")]
 
 [connection signal="pressed" from="CanvasLayer/UserInterface/MenuButton" to="." method="_on_menu_button_pressed"]
