@@ -18,21 +18,9 @@ region = Rect2(225, 0, 225, 225)
 atlas = ExtResource("2_160bs")
 region = Rect2(450, 0, 225, 225)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ea1gx"]
-atlas = ExtResource("2_160bs")
-region = Rect2(0, 450, 225, 225)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i0vpq"]
-atlas = ExtResource("2_160bs")
-region = Rect2(225, 450, 225, 225)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s6nks"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhea1"]
 atlas = ExtResource("2_160bs")
 region = Rect2(450, 450, 225, 225)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_djy75"]
-atlas = ExtResource("2_160bs")
-region = Rect2(675, 450, 225, 225)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a14r6"]
 atlas = ExtResource("2_160bs")
@@ -81,7 +69,7 @@ region = Rect2(675, 675, 225, 225)
 [sub_resource type="SpriteFrames" id="SpriteFrames_fbwgr"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 10.0,
 "texture": SubResource("AtlasTexture_t7jqb")
 }, {
 "duration": 1.0,
@@ -89,6 +77,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tdd7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qb40d")
 }],
 "loop": true,
 "name": &"idle",
@@ -96,18 +87,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ea1gx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i0vpq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s6nks")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_djy75")
+"texture": SubResource("AtlasTexture_bhea1")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump",
 "speed": 5.0
 }, {
@@ -175,8 +157,7 @@ script = ExtResource("1_u0tb2")
 [node name="walking_cat_animation_2D" type="AnimatedSprite2D" parent="." unique_id=14485208]
 position = Vector2(-32, 138)
 sprite_frames = SubResource("SpriteFrames_fbwgr")
-animation = &"walk"
-frame_progress = 0.20307517
+animation = &"jump"
 
 [node name="walking_cat_collision_shape_2D" type="CollisionShape2D" parent="." unique_id=574753404]
 position = Vector2(-24, 168)

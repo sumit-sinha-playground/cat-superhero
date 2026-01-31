@@ -22,7 +22,6 @@ func _physics_process(delta):
 	# 2. Handle Jump (Space Bar)
 	if input_enabled and Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
-		anim.play("jump")
 		sfx_jump.play() # Play jump once
 
 	# 3. Get Movement Input (Left/Right)
@@ -31,17 +30,16 @@ func _physics_process(delta):
 	if input_enabled and direction:
 		velocity.x = direction * speed
 		anim.flip_h = direction < 0
-		
-		if is_on_floor():
-			anim.play("walk")
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
-		if is_on_floor():
-			anim.play("idle")
 
 	# 4. Air Animation logic
-	if not is_on_floor() and velocity.y > 0:
+	if not is_on_floor():
 		anim.play("jump")
+	elif input_enabled and direction:
+		anim.play("walk")
+	else:
+		anim.play("idle")
 
 	# 5. Apply movement
 	move_and_slide()
