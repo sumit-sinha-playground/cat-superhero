@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b7hfr01o60sgv" path="res://scripts/menu/main.gd" id="1_r8hr5"]
 [ext_resource type="Texture2D" uid="uid://gogdmuq8gyfj" path="res://assets/logo.png" id="2_omghv"]
-[ext_resource type="Texture2D" uid="uid://bxoxvtsbcn42y" path="res://assets/house-cat.png" id="2_ynvfx"]
+[ext_resource type="Texture2D" uid="uid://bxoxvtsbcn42y" path="res://assets/menu/house-cat.png" id="2_ynvfx"]
 [ext_resource type="PackedScene" uid="uid://co3g0lfeq0wt3" path="res://scenes/menu/transition.tscn" id="4_ynvfx"]
 
 [node name="Main" type="Control" unique_id=112889743]

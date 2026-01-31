@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://gogdmuq8gyfj" path="res://assets/logo.png" id="1_ap0ip"]
 [ext_resource type="Script" uid="uid://x5v2byjmk2ov" path="res://scripts/menu/transition.gd" id="2_st1yx"]
+[ext_resource type="AudioStream" uid="uid://bsm08nu1rsfps" path="res://assets/menu/transition.mp3" id="3_st1yx"]
 
 [sub_resource type="Animation" id="Animation_box2j"]
 length = 0.001
@@ -32,6 +33,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_gmxck"]
 resource_name = "spin"
+length = 1.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -39,7 +41,7 @@ tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(50, 50)]
@@ -51,7 +53,7 @@ tracks/1/path = NodePath(".:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
+"times": PackedFloat32Array(0, 1.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, 25.132741228718345]
@@ -83,3 +85,6 @@ script = ExtResource("2_st1yx")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=386775066]
 libraries/ = SubResource("AnimationLibrary_ec7jh")
+
+[node name="TransitionAudio" type="AudioStreamPlayer" parent="." unique_id=1707670529]
+stream = ExtResource("3_st1yx")
