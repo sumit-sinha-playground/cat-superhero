@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://baskejubk8qsw"]
+[gd_scene format=3 uid="uid://5qxo3ui4ioce"]
 
 [ext_resource type="Texture2D" uid="uid://dyoelvgc7ql5i" path="res://assets/buildings.png" id="1_1dghs"]
-[ext_resource type="PackedScene" uid="uid://42ttixwt4pbn" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_f5qhw"]
+[ext_resource type="PackedScene" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_f5qhw"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nux03"]
 

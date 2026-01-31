@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://42ttixwt4pbn"]
+[gd_scene format=3 uid="uid://bxi3khsucrwi"]
 
 [ext_resource type="Script" uid="uid://c1gvb10m0o8d" path="res://scripts/walking_cat_character_body_2d.gd" id="1_u0tb2"]
 [ext_resource type="Texture2D" uid="uid://dkvjw2hlru11w" path="res://assets/sprite.png" id="2_160bs"]

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="cat-superhero"
-run/main_scene="uid://baskejubk8qsw"
+run/main_scene="uid://dx2wpf12h8yx8"
 config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/image="uid://gogdmuq8gyfj"
@@ -24,6 +24,10 @@ window/size/viewport_height=720
 window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[gui]
+
+theme/custom="uid://bep3j2tk0p1ra"
 
 [physics]
 
