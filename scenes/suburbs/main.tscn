@@ -9,6 +9,7 @@
 [node name="suburbs_main" type="Node2D" unique_id=1470342674]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1814085310]
+layer = -1
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1756495045]
 motion_mirroring = Vector2(2816, 0)
@@ -21,7 +22,7 @@ centered = false
 position = Vector2(1408, 1350)
 
 [node name="Camera2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=492348267]
-zoom = Vector2(2, 2)
+zoom = Vector2(0.8, 0.8)
 limit_left = 0
 limit_top = 0
 limit_bottom = 1536

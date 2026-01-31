@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" uid="uid://c1gvb10m0o8d" path="res://scripts/walking_cat_character_body_2d.gd" id="1_u0tb2"]
 [ext_resource type="Texture2D" uid="uid://dkvjw2hlru11w" path="res://assets/sprite.png" id="2_160bs"]
+[ext_resource type="AudioStream" uid="uid://j021jqnr4j5g" path="res://assets/cat/idle.mp3" id="3_4qv73"]
+[ext_resource type="AudioStream" uid="uid://dnh162ihfj1f7" path="res://assets/cat/jump.mp3" id="4_bhea1"]
+[ext_resource type="AudioStream" uid="uid://bpmiu1at0cpwx" path="res://assets/cat/running.mp3" id="5_w3yjf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t7jqb"]
 atlas = ExtResource("2_160bs")
@@ -181,3 +184,12 @@ shape = SubResource("CapsuleShape2D_sqa16")
 
 [node name="walking_car_camera_2D" type="Camera2D" parent="." unique_id=1329088057]
 position = Vector2(-54, 4)
+
+[node name="SfxIdle" type="AudioStreamPlayer" parent="." unique_id=967953487]
+stream = ExtResource("3_4qv73")
+
+[node name="SfxJump" type="AudioStreamPlayer" parent="." unique_id=969748560]
+stream = ExtResource("4_bhea1")
+
+[node name="SfxRun" type="AudioStreamPlayer" parent="." unique_id=1341599075]
+stream = ExtResource("5_w3yjf")
