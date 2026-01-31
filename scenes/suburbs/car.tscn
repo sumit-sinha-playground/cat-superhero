@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://0x5ij50rrvfd" path="res://scripts/suburbs/car.gd" id="1_1lp56"]
 [ext_resource type="Texture2D" uid="uid://c2w73ue6lmi28" path="res://assets/suburbs/car-sprite.png" id="1_qg8b7"]
+[ext_resource type="AudioStream" uid="uid://cdrokomgrvvgy" path="res://assets/suburbs/car.mp3" id="3_n1i01"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1lp56"]
 atlas = ExtResource("1_qg8b7")
@@ -63,5 +64,9 @@ shape = SubResource("RectangleShape2D_1lp56")
 [node name="DespawnTimer" type="Timer" parent="." unique_id=1720356401]
 wait_time = 10.0
 one_shot = true
+
+[node name="CarBackgroundNoise" type="AudioStreamPlayer" parent="." unique_id=383734131]
+stream = ExtResource("3_n1i01")
+autoplay = true
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://ba1embercx8c4"]
 
 [ext_resource type="Script" uid="uid://cguvxql6byy82" path="res://scripts/suburbs/main.gd" id="1_lexqu"]
-[ext_resource type="PackedScene" uid="uid://42ttixwt4pbn" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_6p05r"]
+[ext_resource type="PackedScene" uid="uid://bxi3khsucrwi" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_6p05r"]
 [ext_resource type="Texture2D" uid="uid://33800ap3jdge" path="res://assets/suburbs/background.png" id="2_be5pb"]
 [ext_resource type="AudioStream" uid="uid://xm8o13tikvoo" path="res://assets/suburbs/background.mp3" id="3_6ruvh"]
 [ext_resource type="PackedScene" uid="uid://bjpjyx747nb7" path="res://scenes/suburbs/car.tscn" id="4_lexqu"]
@@ -26,7 +26,7 @@ centered = false
 position = Vector2(1408, 1350)
 
 [node name="Camera2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=492348267]
-zoom = Vector2(0.8, 0.8)
+zoom = Vector2(2, 2)
 limit_left = 0
 limit_top = 0
 limit_bottom = 1536
