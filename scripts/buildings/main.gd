@@ -8,9 +8,11 @@ var _storey_nodes = []
 var _storey_width = 986
 var _storey_height = 512
 var _roof_nodes = []
+var _goal_node = null
 
 var _storey_scene = load("res://scenes/buildings/storey.tscn")
 var _roof_scene = load("res://scenes/buildings/roof.tscn")
+var _goal_scene = load("res://scenes/buildings/goal.tscn")
 
 func _ready() -> void:
 	var world = get_node("World")
@@ -27,7 +29,16 @@ func _ready() -> void:
 		r.building_type = i + 1
 		_roof_nodes.append(r)
 		world.add_child(r)
+		
+	_goal_node = _goal_scene.instantiate()
+	_goal_node.position = Vector2(_initial_x, _initial_y - _storeys*_storey_height - 230)
+	world.add_child(_goal_node)
+	
 	
 	get_node("Cat/walking_car_camera_2D").limit_left = _initial_x - _buildings*_storey_width/2
 	get_node("Cat/walking_car_camera_2D").limit_right = _initial_x + _buildings*_storey_width/2
 	get_node("Cat/walking_car_camera_2D").limit_bottom = 0
+
+
+func _on_menu_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://scenes/menu/main.tscn")
