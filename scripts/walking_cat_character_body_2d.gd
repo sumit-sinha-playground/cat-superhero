@@ -19,7 +19,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _ready():
 	add_to_group("cat")
 	
-func _get_input(s):
+func _get_player_string(s):
 	if player2:
 		return str(s, "_p2")
 	return s
@@ -30,12 +30,12 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# 2. Handle Jump (Space Bar)
-	if input_enabled and Input.is_action_just_pressed(_get_input("move_up")) and is_on_floor():
+	if input_enabled and Input.is_action_just_pressed(_get_player_string("move_up")) and is_on_floor():
 		velocity.y = jump_velocity
 		sfx_jump.play() # Play jump once
 
 	# 3. Get Movement Input (Left/Right)
-	var direction = Input.get_axis(_get_input("move_left"), _get_input("move_right"))
+	var direction = Input.get_axis(_get_player_string("move_left"), _get_player_string("move_right"))
 	
 	if input_enabled and direction:
 		velocity.x = move_toward(velocity.x, direction * speed, delta * speed)
@@ -45,11 +45,11 @@ func _physics_process(delta):
 
 	# 4. Air Animation logic
 	if not is_on_floor():
-		anim.play("jump")
+		anim.play(_get_player_string("jump"))
 	elif input_enabled and direction:
-		anim.play("walk")
+		anim.play(_get_player_string("walk"))
 	else:
-		anim.play("idle")
+		anim.play(_get_player_string("idle"))
 
 	# 5. Apply movement
 	move_and_slide()
