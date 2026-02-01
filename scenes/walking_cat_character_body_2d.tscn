@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ck5vdquxah2l7" path="res://assets/sprite_p2.png" id="3_bhea1"]
 [ext_resource type="AudioStream" uid="uid://dnh162ihfj1f7" path="res://assets/cat/jump.mp3" id="4_bhea1"]
 [ext_resource type="AudioStream" uid="uid://bpmiu1at0cpwx" path="res://assets/cat/running.mp3" id="5_w3yjf"]
+[ext_resource type="AudioStream" uid="uid://bwlctfrtgbgtx" path="res://assets/cat/dead.mp3" id="7_w3yjf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t7jqb"]
 atlas = ExtResource("2_160bs")
@@ -296,7 +297,7 @@ script = ExtResource("1_u0tb2")
 [node name="walking_cat_animation_2D" type="AnimatedSprite2D" parent="." unique_id=14485208]
 position = Vector2(-8, -30)
 sprite_frames = SubResource("SpriteFrames_fbwgr")
-animation = &"walk_up_p2"
+animation = &"sleep"
 
 [node name="walking_cat_collision_shape_2D" type="CollisionShape2D" parent="." unique_id=574753404]
 shape = SubResource("CapsuleShape2D_sqa16")
@@ -312,3 +313,6 @@ stream = ExtResource("4_bhea1")
 
 [node name="SfxRun" type="AudioStreamPlayer" parent="." unique_id=1341599075]
 stream = ExtResource("5_w3yjf")
+
+[node name="SfxDead" type="AudioStreamPlayer" parent="." unique_id=123749084]
+stream = ExtResource("7_w3yjf")

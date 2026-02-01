@@ -138,13 +138,11 @@ func _physics_process(delta: float) -> void:
 				sprite.play("walk")
 
 func _setup_ui() -> void:
-	# Create a CanvasLayer so UI stays on screen regardless of camera movement
 	var canvas = CanvasLayer.new()
 	add_child(canvas)
 	
 	var control = Control.new()
 	control.set_anchors_preset(Control.PRESET_FULL_RECT)
-	# Allow mouse input to pass through to game, but stop at buttons
 	control.mouse_filter = Control.MOUSE_FILTER_PASS 
 	canvas.add_child(control)
 	
@@ -159,14 +157,12 @@ func _setup_ui() -> void:
 	# 2. Create Timer Label (Top Right)
 	timer_label = Label.new()
 	timer_label.text = "0:00.000"
-	# Anchor to top right
-	timer_label.layout_mode = 1 # Anchors
+	timer_label.layout_mode = 1 
 	timer_label.anchors_preset = Control.PRESET_TOP_RIGHT
 	timer_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
-	timer_label.position = Vector2(-150, 20) # Offset from right edge
+	timer_label.position = Vector2(-150, 20) 
 	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	
-	# Optional: Increase font size slightly
 	var settings = LabelSettings.new()
 	settings.font_size = 24
 	settings.outline_size = 4
@@ -189,19 +185,15 @@ func _on_menu_button_pressed() -> void:
 		print("Main Menu scene not found!")
 
 func _update_floor_y() -> void:
-	# This sets the y-coordinate to the bottom of the viewport
 	current_floor_y = int(get_viewport_rect().size.y - bottom_margin)
 
 func _setup_camera_limits() -> void:
-	# Wait for player to be available to ensure we set limits on the correct node
 	var player = await _get_player()
 	if not player: return
 	var camera = player.get_node_or_null("walking_car_camera_2D")
 	if not camera: return
 	
-	# Force the camera to stop at the lowest generated floor level
 	camera.limit_bottom = max_floor_y_limit
-	# Set limits for the sides as well
 	camera.limit_left = left_limit
 	camera.limit_right = right_limit
 
@@ -210,7 +202,6 @@ func _force_generate_range(min_x: int, max_x: int) -> void:
 	while current_x <= max_x:
 		_add_tile(current_x)
 		
-		# Determine if we need to force stalls (Start or End of map)
 		var forced_stalls = -1
 		if current_x == min_x:
 			forced_stalls = 10
@@ -242,44 +233,35 @@ func _run_intro_camera_sequence() -> void:
 	
 	if not puppy_node: 
 		player.set_physics_process(true)
-		timer_running = true # Start timer immediately if no intro
+		timer_running = true 
 		return
 
 	var original_position = camera.position
 	
 	camera.top_level = true 
 	camera.global_position = player.global_position
-	# Disable limits during the cinematic for smooth movement
 	camera.limit_bottom = 100000 
 
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	
-	# 1. Pan to Puppy
 	tween.tween_property(camera, "global_position", puppy_node.global_position, 3.5)
 	
-	# 2. Trigger SFX when camera arrives
 	tween.tween_callback(func():
 		var sfx = puppy_node.get_node_or_null("SfxSad")
 		if sfx:
 			sfx.play()
 	)
 	
-	# 3. Wait 1.5 seconds looking at puppy
 	tween.tween_interval(1.5) 
 	
-	# 4. Pan back to Player
 	tween.tween_property(camera, "global_position", player.global_position, 2.0)
 	
-	# 5. Restore control and START TIMER
 	tween.tween_callback(func():
 		if not game_over:
 			camera.top_level = false
 			camera.position = original_position
-			# FIX: Use the calculated max limit (lowest point) instead of just current_floor_y
 			camera.limit_bottom = max_floor_y_limit
 			player.set_physics_process(true)
-			
-			# --- START TIMER HERE ---
 			timer_running = true
 	)
 
@@ -311,20 +293,16 @@ func _try_spawn_decor(x_pos: int, y_base: int, forced_stall_count: int = -1) -> 
 		is_puppy_tile = true
 	
 	if not is_puppy_tile:
-		# Exclusive spawning logic: Rock OR Rat OR Stall
 		var spawned_something = false
 		
-		# 1. Try Rock
 		if randf() < rock_spawn_chance:
 			_spawn_rock(x_pos, y_base)
 			spawned_something = true
 			
-		# 2. Try Rat (if no rock)
 		if not spawned_something and randf() < rat_spawn_chance:
 			_spawn_rat(x_pos, y_base)
 			spawned_something = true
 			
-		# 3. Try Stall (if nothing else, or forced)
 		if not spawned_something or forced_stall_count != -1:
 			_determine_and_spawn_stall(x_pos, y_base, forced_stall_count)
 
@@ -395,6 +373,18 @@ func _on_rat_body_entered(body: Node2D, rat_data: Dictionary) -> void:
 				rat_area.queue_free()
 		else:
 			# --- GAME OVER (Hit by Rat) ---
+			
+			# 1. Play SFX Dead on Cat
+			var sfx_dead = body.get_node_or_null("SfxDead")
+			if sfx_dead:
+				sfx_dead.play()
+				
+			# 2. Play Sleep Animation on Cat
+			var cat_sprite = body.get_node_or_null("walking_cat_animation_2D")
+			if cat_sprite:
+				cat_sprite.play("sleep")
+			
+			# 3. End Game
 			_trigger_game_end()
 		
 	# 2. Collision with Stall -> Turn Around
@@ -421,34 +411,32 @@ func _on_puppy_body_entered(body: Node2D, anim_sprite: AnimatedSprite2D) -> void
 	if "walking_cat" in body.name and not game_over:
 		anim_sprite.play("happy")
 		
-		# --- STOP TIMER ---
 		timer_running = false
 		
-		# --- PLAY SFX HAPPY ---
 		if puppy_node:
 			var sfx_happy = puppy_node.get_node_or_null("SfxHappy")
 			if sfx_happy:
 				sfx_happy.play()
 		
-		# Wait 4.0 seconds (doubled from 2.0) before exiting
 		await get_tree().create_timer(4.0).timeout
 		_trigger_game_end()
 
 func _trigger_game_end() -> void:
 	if game_over: return
 	game_over = true
-	timer_running = false # Ensure timer stops on failure too
+	timer_running = false 
 	
 	# 1. Stop Player Input
 	var player = await _get_player()
 	if player:
+		# Disable physics processing to stop user input for movement
 		player.set_physics_process(false)
 		if "velocity" in player:
 			player.velocity = Vector2.ZERO
 	
 	# 2. Stop Rats (Handled in _physics_process by game_over flag)
 	
-	# 3. Wait 1.0 seconds (doubled from 0.5) so the user sees what happened
+	# 3. Wait 1.0 seconds so the user sees the animation/hears sound
 	await get_tree().create_timer(1.0).timeout
 	
 	# 4. Change to Main Scene
@@ -463,7 +451,6 @@ func _add_tile(x_pos: int) -> void:
 	
 	var y_pos = right_floor_y + floor_offset
 	
-	# Keep track of the lowest point (highest Y) for camera limits
 	if y_pos > max_floor_y_limit:
 		max_floor_y_limit = y_pos
 		
@@ -479,10 +466,7 @@ func _add_tile(x_pos: int) -> void:
 	s.position = Vector2(-tex_w / 2.0, -tex_h)
 	body.add_child(s)
 
-	# --- VISUAL FOUNDATION FIX ---
-	# This creates a dark block below the tile to fill the gap down to the camera limit
 	_create_foundation(body, tex_w)
-	# -----------------------------
 
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
@@ -495,18 +479,17 @@ func _add_tile(x_pos: int) -> void:
 	right_floor_y += _get_floor_y_adjustment(ground_id)
 
 func _create_foundation(parent_body: Node2D, width: float) -> void:
-	# Extends 2000px down to ensure no gap is visible even if camera limit is deep
 	var height = 2000 
 	var poly = Polygon2D.new()
 	var points = PackedVector2Array([
-		Vector2(-width / 2.0, 0),       # Top Left (at floor surface)
-		Vector2(width / 2.0, 0),        # Top Right
-		Vector2(width / 2.0, height),   # Bottom Right
-		Vector2(-width / 2.0, height)   # Bottom Left
+		Vector2(-width / 2.0, 0),       
+		Vector2(width / 2.0, 0),        
+		Vector2(width / 2.0, height),   
+		Vector2(-width / 2.0, height)   
 	])
 	poly.polygon = points
 	poly.color = foundation_color
-	poly.z_index = -1 # Draw behind the main floor sprite
+	poly.z_index = -1 
 	parent_body.add_child(poly)
 
 func _spawn_rock(x_pos: int, y_base: int) -> void:
