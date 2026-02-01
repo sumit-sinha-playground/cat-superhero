@@ -6,23 +6,29 @@ var _buildings_scene = "res://scenes/buildings/main.tscn"
 
 var _characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
+func _on_button_hover() -> void:
+	$HoverAudio.play()
+
 func _on_play_button_pressed() -> void:
+	$ClickAudio.play()
 	$Menu/PlayButton.visible = false
 	$Menu/LevelContainer.visible = true
 
 func _on_tree_button_pressed() -> void:
+	$ClickAudio.play()
 	get_tree().change_scene_to_file(_tree_scene)
 
 func _on_suburbs_button_pressed() -> void:
+	$ClickAudio.play()
 	get_tree().change_scene_to_file(_suburbs_scene)
 
 func _on_buildings_button_pressed() -> void:
+	$ClickAudio.play()
 	$Menu/LevelContainer.visible = false
 	$Menu/BuildingsContainer.visible = true
 	var s = _generate_seed()
 	_on_seed_edit_text_changed(s)
 	$Menu/BuildingsContainer/SeedContainer/SeedEdit.text = s
-	
 
 func _on_buildings_easy_button_pressed() -> void:
 	$Transition.transition_to_and_set_data(_buildings_scene, func (s): s.difficulty = 0)

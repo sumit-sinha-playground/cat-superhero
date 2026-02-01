@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://cga368s3pidw7" path="res://scenes/buildings/stopwatch.tscn" id="4_p3trv"]
 [ext_resource type="AudioStream" uid="uid://dy4aoy3ju8nve" path="res://assets/buildings/help.mp3" id="4_pssxw"]
 [ext_resource type="AudioStream" uid="uid://kq6lqbcv0bj6" path="res://assets/buildings/thanks.mp3" id="5_o7kih"]
+[ext_resource type="AudioStream" uid="uid://d3hf3he445mqv" path="res://assets/click.wav" id="9_ytjc0"]
+[ext_resource type="AudioStream" uid="uid://3tm18hwk8fxb" path="res://assets/hover.wav" id="10_heqnm"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_exv1i"]
 
@@ -362,4 +364,11 @@ text = "P2 Press Enter"
 visible = false
 custom_minimum_size = Vector2(-0.66, 0)
 
+[node name="ClickAudio" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=1269416925]
+stream = ExtResource("9_ytjc0")
+
+[node name="HoverAudio" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=680780424]
+stream = ExtResource("10_heqnm")
+
+[connection signal="mouse_entered" from="CanvasLayer/UserInterface/MenuButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="CanvasLayer/UserInterface/MenuButton" to="." method="_on_menu_button_pressed"]

@@ -110,7 +110,11 @@ func _on_goal_reached(body):
 		$ThanksAudio.play()
 		$CanvasLayer/UserInterface/Timer.stop()
 
+func _on_button_hover() -> void:
+	$CanvasLayer/HoverAudio.play()
+
 func _on_menu_button_pressed() -> void:
+	$CanvasLayer/ClickAudio.play()
 	$CanvasLayer/Transition.transition_to("res://scenes/menu/main.tscn")
 
 func _dfs(map, x: int, y: int):
