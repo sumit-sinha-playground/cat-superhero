@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://infinite_floor_001"]
+[gd_scene format=3 uid="uid://cn3mmn4cm0pex"]
 
-[ext_resource type="Script" uid="uid://inf_floor_script" path="res://scripts/village/infinite_floor.gd" id="1_a"]
+[ext_resource type="Script" uid="uid://dnso888slgtkh" path="res://scripts/village/infinite_floor.gd" id="1_a"]
 
 [node name="InfiniteFloor" type="Node2D" unique_id=123456789]
 script = ExtResource("1_a")
