@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://bks3rb4filgbw"]
+
+[ext_resource type="Texture2D" uid="uid://bblwj0vmtyaod" path="res://assets/suburbs/puppy.png" id="1_nv7kd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hsms"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(0, 294, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6v7g8"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(270, 294, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ommja"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(540, 294, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xi8kv"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(810, 294, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bebw7"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(0, 0, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sffxv"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(270, 0, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_srxse"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(540, 0, 270, 294)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0vw6o"]
+atlas = ExtResource("1_nv7kd")
+region = Rect2(810, 0, 270, 294)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1q3fh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5hsms")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6v7g8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ommja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xi8kv")
+}],
+"loop": true,
+"name": &"happy",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bebw7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sffxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_srxse")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0vw6o")
+}],
+"loop": true,
+"name": &"sad",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3ohv"]
+
+[node name="Puppy" type="Node2D" unique_id=443114843]
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1802022425]
+scale = Vector2(0.4, 0.4)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D" unique_id=214338025]
+sprite_frames = SubResource("SpriteFrames_1q3fh")
+animation = &"sad"
+frame_progress = 0.96583694
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1723602517]
+shape = SubResource("RectangleShape2D_r3ohv")
