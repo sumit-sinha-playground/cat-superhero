@@ -14,6 +14,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var sfx_jump = $SfxJump
 @onready var sfx_run = $SfxRun
 
+func _ready():
+	add_to_group("cat")
+
 func _physics_process(delta):
 	# 1. Apply Gravity
 	if not is_on_floor():

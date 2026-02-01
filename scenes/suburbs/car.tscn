@@ -44,6 +44,7 @@ animations = [{
 size = Vector2(4532.6494, 2708.2769)
 
 [node name="Car" type="Node2D" unique_id=1891170683]
+scale = Vector2(0.8, 0.8)
 script = ExtResource("1_1lp56")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=603173341]
