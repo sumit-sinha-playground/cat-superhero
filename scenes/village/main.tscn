@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://x1ftuodc4s4k"]
+
+[ext_resource type="PackedScene" uid="uid://bxi3khsucrwi" path="res://scenes/walking_cat_character_body_2d.tscn" id="1_a"]
+[ext_resource type="Script" uid="uid://ci6hrda03hq27" path="res://scripts/village/village_controller.gd" id="2_b"]
+[ext_resource type="PackedScene" path="res://scenes/village/infinite_floor.tscn" id="3_c"]
+
+[node name="VillageMain" type="Node2D" unique_id=1637352212]
+script = ExtResource("2_b")
+
+[node name="InfiniteFloor" parent="." unique_id=2143658709 instance=ExtResource("3_c")]
+
+[node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("1_a")]
