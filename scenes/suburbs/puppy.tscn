@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://c4awcea35q5ba"]
 
+[ext_resource type="Script" uid="uid://7w1jx6oae87n" path="res://scripts/village/puppy.gd" id="1_5hsms"]
 [ext_resource type="Texture2D" uid="uid://bblwj0vmtyaod" path="res://assets/suburbs/puppy.png" id="1_ovbyh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5hsms"]
@@ -74,6 +75,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r3ohv"]
 
 [node name="Puppy" type="Node2D" unique_id=443114843]
+script = ExtResource("1_5hsms")
 
 [node name="Area2D" type="Area2D" parent="." unique_id=1802022425]
 scale = Vector2(0.4, 0.4)

@@ -20,7 +20,7 @@ const RAT_SCENE = preload("res://scenes/village/rat.tscn")
 @export_group("Rat Settings")
 @export var rat_spawn_chance: float = 0.1
 @export var rat_speed: float = 200.0
-@export var rat_scale: float = 2.0 # Scaled up to be visible against 64px tiles
+@export var rat_scale: float = 2.0 
 
 @export_group("Boundaries")
 @export var left_limit: int = -300
@@ -35,13 +35,15 @@ const RAT_SCENE = preload("res://scenes/village/rat.tscn")
 @export var background_parallax: float = 0.3
 # Set bottom_margin to 0 to keep the floor at the absolute bottom
 @export var bottom_margin: int = 0
+# Color for the dirt/foundation below the floor tiles
+@export var foundation_color: Color = Color(0.15, 0.1, 0.05) 
 
 var textures = {} 
 var rock_textures = {} 
 var tiles = []
 var rocks = [] 
 var stalls = [] 
-# Stores dictionaries: { "area": Area2D, "dir": int (-1 or 1), "sprite": AnimatedSprite2D }
+# Stores dictionaries: { "area": Area2D, "dir": int, "sprite": AnimatedSprite2D, "is_dead": bool }
 var active_rats = [] 
 
 var last_rock_x: float = -INF
@@ -57,12 +59,17 @@ var right_ground_id: int = 1
 var puppy_spawned: bool = false
 var puppy_node: Node2D = null 
 
+# Track the absolute lowest point (highest Y) to ensure camera covers deep pits
+var max_floor_y_limit: int = 0
+
 func _ready():
 	randomize()
 	_load_resources()
 	_update_floor_y()
 	
 	right_floor_y = current_floor_y
+	max_floor_y_limit = current_floor_y # Initialize with starting Y
+	
 	right_ground_id = 1
 	last_stall_count = 0
 	active_rats.clear()
@@ -84,12 +91,15 @@ func _ready():
 	await get_tree().create_timer(0.5).timeout
 	
 	# 4. Camera Setup & Intro
-	_setup_camera_limits()
+	await _setup_camera_limits()
 	_run_intro_camera_sequence()
 
 func _physics_process(delta: float) -> void:
 	# Handle Rat Movement
 	for rat_data in active_rats:
+		if rat_data.get("is_dead", false) or not is_instance_valid(rat_data["area"]):
+			continue
+			
 		var area = rat_data["area"]
 		var dir = rat_data["dir"]
 		var sprite = rat_data["sprite"]
@@ -99,11 +109,9 @@ func _physics_process(delta: float) -> void:
 		
 		# Update Visuals
 		if sprite:
-			# If dir is -1 (Left), flip_h should be true (assuming texture faces right by default)
-			# Looking at your texture names, standard is usually right-facing.
-			# If texture is left-facing by default, adjust logic. 
-			# Assuming standard Right-facing sprites:
-			sprite.flip_h = (dir > 0) 
+			# Flip H if moving Left (dir < 0)
+			sprite.flip_h = (dir < 0)
+			
 			if sprite.animation != "walk":
 				sprite.play("walk")
 
@@ -112,13 +120,14 @@ func _update_floor_y() -> void:
 	current_floor_y = int(get_viewport_rect().size.y - bottom_margin)
 
 func _setup_camera_limits() -> void:
-	var player = get_node_or_null("../walking_cat_character_body_2D")
+	# Wait for player to be available to ensure we set limits on the correct node
+	var player = await _get_player()
 	if not player: return
 	var camera = player.get_node_or_null("walking_car_camera_2D")
 	if not camera: return
 	
-	# Force the camera to stop at the floor level
-	camera.limit_bottom = current_floor_y
+	# Force the camera to stop at the lowest generated floor level
+	camera.limit_bottom = max_floor_y_limit
 	# Set limits for the sides as well
 	camera.limit_left = left_limit
 	camera.limit_right = right_limit
@@ -163,7 +172,6 @@ func _run_intro_camera_sequence() -> void:
 		return
 
 	var original_position = camera.position
-	var original_limit_bottom = camera.limit_bottom
 	
 	camera.top_level = true 
 	camera.global_position = player.global_position
@@ -171,14 +179,29 @@ func _run_intro_camera_sequence() -> void:
 	camera.limit_bottom = 100000 
 
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	# 1. Pan to Puppy
 	tween.tween_property(camera, "global_position", puppy_node.global_position, 3.5)
+	
+	# 2. Trigger SFX when camera arrives
+	tween.tween_callback(func():
+		var sfx = puppy_node.get_node_or_null("SfxSad")
+		if sfx:
+			sfx.play()
+	)
+	
+	# 3. Wait 1.5 seconds looking at puppy
 	tween.tween_interval(1.5) 
+	
+	# 4. Pan back to Player
 	tween.tween_property(camera, "global_position", player.global_position, 2.0)
 	
+	# 5. Restore control
 	tween.tween_callback(func():
 		camera.top_level = false
 		camera.position = original_position
-		camera.limit_bottom = original_limit_bottom
+		# FIX: Use the calculated max limit (lowest point) instead of just current_floor_y
+		camera.limit_bottom = max_floor_y_limit
 		player.set_physics_process(true)
 	)
 
@@ -224,66 +247,80 @@ func _try_spawn_decor(x_pos: int, y_base: int, forced_stall_count: int = -1) -> 
 			spawned_something = true
 			
 		# 3. Try Stall (if nothing else, or forced)
-		# Note: Stalls have their own internal probability logic, but we run it
-		# if nothing else blocked the tile, or if we are forcing it.
 		if not spawned_something or forced_stall_count != -1:
 			_determine_and_spawn_stall(x_pos, y_base, forced_stall_count)
 
 func _spawn_rat(x_pos: int, y_base: int) -> void:
-	# Calculate Position
+	if x_pos < 300: return
+	
 	var floor_h = 64
 	if textures.has(1): floor_h = textures[1].get_height()
 	
-	# Instantiate Visual Scene
 	var rat_visual = RAT_SCENE.instantiate()
-	
-	# Create Physics Wrapper (Area2D)
 	var rat_area = Area2D.new()
 	rat_area.name = "Rat_Area_%d" % x_pos
 	
-	# Adjust Y: Base + Offset - Floor Height - (Half Rat Height roughly)
-	# Visual sprite is approx 16px high * scale. 
 	var visual_h = 16.0 * rat_scale
-	rat_area.position = Vector2(x_pos, y_base + floor_offset - floor_h - (visual_h * 2.0) - 20)
-	add_child(rat_area)
-	rat_area.z_index = 6 # In front of stalls
+	rat_area.position = Vector2(x_pos, y_base + floor_offset - floor_h - visual_h - 50)
 	
-	# Add Visuals
+	add_child(rat_area)
+	rat_area.z_index = 6 
+	
 	rat_visual.scale = Vector2(rat_scale, rat_scale)
 	rat_area.add_child(rat_visual)
 	
-	# Add Collision
 	var col = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
-	# Hitbox size slightly smaller than visual
 	shape.size = Vector2(24 * rat_scale, 12 * rat_scale) 
 	col.shape = shape
 	rat_area.add_child(col)
 	
-	# Get AnimatedSprite reference
 	var sprite = rat_visual.get_node_or_null("AnimatedSprite2D")
 	if sprite:
 		sprite.play("walk")
 	
-	# Data Packet
 	var rat_data = {
 		"area": rat_area,
-		"dir": -1, # Start moving LEFT
-		"sprite": sprite
+		"dir": -1, 
+		"sprite": sprite,
+		"is_dead": false
 	}
 	
 	active_rats.append(rat_data)
 	
-	# Connect Signals using a bind to pass the specific rat_data
 	rat_area.body_entered.connect(_on_rat_body_entered.bind(rat_data))
 
 func _on_rat_body_entered(body: Node2D, rat_data: Dictionary) -> void:
-	# 1. Collision with Player -> Game Over
+	if rat_data["is_dead"]: return
+
+	# 1. Player Collision Logic
 	if "walking_cat" in body.name:
-		call_deferred("_restart_scene")
+		var rat_area = rat_data["area"]
+		
+		var is_above = body.global_position.y < rat_area.global_position.y
+		var is_falling = body.velocity.y > 0
+		
+		if is_above and is_falling:
+			# --- STOMP KILL ---
+			rat_data["is_dead"] = true
+			
+			rat_area.call_deferred("set_monitoring", false)
+			rat_area.call_deferred("set_monitorable", false)
+			
+			if rat_data["sprite"]:
+				rat_data["sprite"].play("dead")
+			
+			body.velocity.y = -400.0
+			
+			await get_tree().create_timer(1.0).timeout
+			if is_instance_valid(rat_area):
+				rat_area.queue_free()
+		else:
+			# --- GAME OVER ---
+			call_deferred("_restart_scene")
 		
 	# 2. Collision with Stall -> Turn Around
-	if body.is_in_group("stall"):
+	elif body.is_in_group("stall"):
 		rat_data["dir"] *= -1
 
 func _restart_scene():
@@ -313,8 +350,14 @@ func _add_tile(x_pos: int) -> void:
 	var ground_id = _get_next_ground_id(right_ground_id)
 	right_ground_id = ground_id
 	
+	var y_pos = right_floor_y + floor_offset
+	
+	# Keep track of the lowest point (highest Y) for camera limits
+	if y_pos > max_floor_y_limit:
+		max_floor_y_limit = y_pos
+		
 	var body = StaticBody2D.new()
-	body.position = Vector2(x_pos, right_floor_y + floor_offset)
+	body.position = Vector2(x_pos, y_pos)
 	add_child(body)
 
 	var s = Sprite2D.new()
@@ -325,6 +368,11 @@ func _add_tile(x_pos: int) -> void:
 	s.position = Vector2(-tex_w / 2.0, -tex_h)
 	body.add_child(s)
 
+	# --- VISUAL FOUNDATION FIX ---
+	# This creates a dark block below the tile to fill the gap down to the camera limit
+	_create_foundation(body, tex_w)
+	# -----------------------------
+
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
 	shape.size = Vector2(tex_w, tex_h)
@@ -334,6 +382,21 @@ func _add_tile(x_pos: int) -> void:
 
 	tiles.append(body)
 	right_floor_y += _get_floor_y_adjustment(ground_id)
+
+func _create_foundation(parent_body: Node2D, width: float) -> void:
+	# Extends 2000px down to ensure no gap is visible even if camera limit is deep
+	var height = 2000 
+	var poly = Polygon2D.new()
+	var points = PackedVector2Array([
+		Vector2(-width / 2.0, 0),       # Top Left (at floor surface)
+		Vector2(width / 2.0, 0),        # Top Right
+		Vector2(width / 2.0, height),   # Bottom Right
+		Vector2(-width / 2.0, height)   # Bottom Left
+	])
+	poly.polygon = points
+	poly.color = foundation_color
+	poly.z_index = -1 # Draw behind the main floor sprite
+	parent_body.add_child(poly)
 
 func _spawn_rock(x_pos: int, y_base: int) -> void:
 	if abs(x_pos - last_rock_x) < min_rock_spacing: return
@@ -384,7 +447,6 @@ func _spawn_stall(x_pos: int, y_base: int, count: int) -> void:
 	var ground_line = y_base + floor_offset - floor_h
 	for i in range(count):
 		var body = StaticBody2D.new()
-		# Add stall to group so rats can detect it
 		body.add_to_group("stall")
 		
 		var vertical_position = ground_line - (tex_h * i)

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://bks3rb4filgbw"]
 
 [ext_resource type="Texture2D" uid="uid://bblwj0vmtyaod" path="res://assets/suburbs/puppy.png" id="1_nv7kd"]
+[ext_resource type="AudioStream" uid="uid://cp4jqgklcwdoo" path="res://assets/village/help.mp3" id="2_8g6ot"]
+[ext_resource type="AudioStream" uid="uid://b0vqjnrcmbls1" path="res://assets/village/thank-you.mp3" id="3_fuxmm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5hsms"]
 atlas = ExtResource("1_nv7kd")
@@ -85,3 +87,9 @@ frame_progress = 0.96583694
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1723602517]
 shape = SubResource("RectangleShape2D_r3ohv")
+
+[node name="SfxSad" type="AudioStreamPlayer" parent="." unique_id=914723598]
+stream = ExtResource("2_8g6ot")
+
+[node name="SfxHappy" type="AudioStreamPlayer" parent="." unique_id=1678260273]
+stream = ExtResource("3_fuxmm")

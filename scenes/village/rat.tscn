@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://xojlojoe2cvj" path="res://assets/village/RatDeath.png" id="1_g6g6d"]
 [ext_resource type="Texture2D" uid="uid://bqhoiib0cv2k4" path="res://assets/village/RatIdle.png" id="2_kqnqg"]
 [ext_resource type="Texture2D" uid="uid://t0pfwetakrow" path="res://assets/village/RatWalk.png" id="3_4wbon"]
+[ext_resource type="AudioStream" uid="uid://d2abrcdfxesva" path="res://assets/village/rat.mp3" id="4_kqnqg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xflrf"]
 atlas = ExtResource("1_g6g6d")
@@ -112,3 +113,8 @@ animations = [{
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_2q2pw")
 animation = &"idle"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1325938041]
+stream = ExtResource("4_kqnqg")
+pitch_scale = 0.5
+autoplay = true
