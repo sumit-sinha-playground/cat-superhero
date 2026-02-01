@@ -64,10 +64,19 @@ var game_over: bool = false
 # Track the absolute lowest point (highest Y) to ensure camera covers deep pits
 var max_floor_y_limit: int = 0
 
+# --- UI VARIABLES ---
+var timer_running: bool = false
+var time_elapsed: float = 0.0
+var timer_label: Label = null
+var menu_button: Button = null
+
 func _ready():
 	randomize()
 	_load_resources()
 	_update_floor_y()
+	
+	# Setup UI (CanvasLayer, Timer, Menu Button)
+	_setup_ui()
 	
 	right_floor_y = current_floor_y
 	max_floor_y_limit = current_floor_y # Initialize with starting Y
@@ -76,6 +85,8 @@ func _ready():
 	last_stall_count = 0
 	active_rats.clear()
 	game_over = false
+	timer_running = false
+	time_elapsed = 0.0
 	
 	if tile_width <= 0:
 		_auto_detect_tile_width()
@@ -96,6 +107,12 @@ func _ready():
 	# 4. Camera Setup & Intro
 	await _setup_camera_limits()
 	_run_intro_camera_sequence()
+
+func _process(delta: float) -> void:
+	# Handle Timer Logic (Visual update)
+	if timer_running and not game_over:
+		time_elapsed += delta
+		_update_timer_label()
 
 func _physics_process(delta: float) -> void:
 	if game_over: return
@@ -119,6 +136,57 @@ func _physics_process(delta: float) -> void:
 			
 			if sprite.animation != "walk":
 				sprite.play("walk")
+
+func _setup_ui() -> void:
+	# Create a CanvasLayer so UI stays on screen regardless of camera movement
+	var canvas = CanvasLayer.new()
+	add_child(canvas)
+	
+	var control = Control.new()
+	control.set_anchors_preset(Control.PRESET_FULL_RECT)
+	# Allow mouse input to pass through to game, but stop at buttons
+	control.mouse_filter = Control.MOUSE_FILTER_PASS 
+	canvas.add_child(control)
+	
+	# 1. Create Menu Button (Top Left)
+	menu_button = Button.new()
+	menu_button.text = "Menu"
+	menu_button.position = Vector2(20, 20)
+	menu_button.size = Vector2(100, 40)
+	menu_button.pressed.connect(_on_menu_button_pressed)
+	control.add_child(menu_button)
+	
+	# 2. Create Timer Label (Top Right)
+	timer_label = Label.new()
+	timer_label.text = "0:00.000"
+	# Anchor to top right
+	timer_label.layout_mode = 1 # Anchors
+	timer_label.anchors_preset = Control.PRESET_TOP_RIGHT
+	timer_label.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	timer_label.position = Vector2(-150, 20) # Offset from right edge
+	timer_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	
+	# Optional: Increase font size slightly
+	var settings = LabelSettings.new()
+	settings.font_size = 24
+	settings.outline_size = 4
+	settings.outline_color = Color.BLACK
+	timer_label.label_settings = settings
+	
+	control.add_child(timer_label)
+
+func _update_timer_label() -> void:
+	if not timer_label: return
+	var m = floori(time_elapsed / 60)
+	var s = floori(time_elapsed) % 60
+	var ms = floori(time_elapsed * 1000) % 1000
+	timer_label.text = "%d:%02d.%03d" % [m, s, ms]
+
+func _on_menu_button_pressed() -> void:
+	if ResourceLoader.exists(MAIN_MENU_SCENE):
+		get_tree().change_scene_to_file(MAIN_MENU_SCENE)
+	else:
+		print("Main Menu scene not found!")
 
 func _update_floor_y() -> void:
 	# This sets the y-coordinate to the bottom of the viewport
@@ -174,6 +242,7 @@ func _run_intro_camera_sequence() -> void:
 	
 	if not puppy_node: 
 		player.set_physics_process(true)
+		timer_running = true # Start timer immediately if no intro
 		return
 
 	var original_position = camera.position
@@ -201,7 +270,7 @@ func _run_intro_camera_sequence() -> void:
 	# 4. Pan back to Player
 	tween.tween_property(camera, "global_position", player.global_position, 2.0)
 	
-	# 5. Restore control
+	# 5. Restore control and START TIMER
 	tween.tween_callback(func():
 		if not game_over:
 			camera.top_level = false
@@ -209,6 +278,9 @@ func _run_intro_camera_sequence() -> void:
 			# FIX: Use the calculated max limit (lowest point) instead of just current_floor_y
 			camera.limit_bottom = max_floor_y_limit
 			player.set_physics_process(true)
+			
+			# --- START TIMER HERE ---
+			timer_running = true
 	)
 
 func _get_player() -> Node2D:
@@ -349,6 +421,9 @@ func _on_puppy_body_entered(body: Node2D, anim_sprite: AnimatedSprite2D) -> void
 	if "walking_cat" in body.name and not game_over:
 		anim_sprite.play("happy")
 		
+		# --- STOP TIMER ---
+		timer_running = false
+		
 		# --- PLAY SFX HAPPY ---
 		if puppy_node:
 			var sfx_happy = puppy_node.get_node_or_null("SfxHappy")
@@ -362,6 +437,7 @@ func _on_puppy_body_entered(body: Node2D, anim_sprite: AnimatedSprite2D) -> void
 func _trigger_game_end() -> void:
 	if game_over: return
 	game_over = true
+	timer_running = false # Ensure timer stops on failure too
 	
 	# 1. Stop Player Input
 	var player = await _get_player()
