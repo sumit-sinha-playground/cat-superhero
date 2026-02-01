@@ -13,12 +13,32 @@
 [ext_resource type="Texture2D" uid="uid://dwc5sy174iydu" path="res://assets/buildings/windows_5_1.png" id="10_5xjww"]
 [ext_resource type="Texture2D" uid="uid://bbope7rfjqf4o" path="res://assets/buildings/windows_5_2.png" id="11_7xp6v"]
 [ext_resource type="Texture2D" uid="uid://bmm1iios0l1t7" path="res://assets/buildings/windows_5_3.png" id="12_km2vo"]
+[ext_resource type="Texture2D" uid="uid://bunk3sh7newph" path="res://assets/buildings/plant_1.png" id="14_gdrsd"]
+[ext_resource type="Texture2D" uid="uid://b06mw1qmro76k" path="res://assets/buildings/plant_2.png" id="15_gv53g"]
+[ext_resource type="Texture2D" uid="uid://bspnsxyw3vjfi" path="res://assets/buildings/plant_3.png" id="16_gfpcd"]
+[ext_resource type="Texture2D" uid="uid://bfvn781gvft87" path="res://assets/buildings/plant_4.png" id="17_gm4x8"]
+[ext_resource type="Texture2D" uid="uid://7yy3ukmi31f8" path="res://assets/buildings/plant_5.png" id="18_qhcv8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h3bvp"]
-size = Vector2(106, 11)
+size = Vector2(105.14286, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6u2ib"]
 size = Vector2(106, 11)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f3yi2"]
+size = Vector2(84.85716, 133.85715)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t6fri"]
+size = Vector2(120.000015, 141.14285)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_feb5b"]
+size = Vector2(78.57144, 150.85716)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_34f8m"]
+size = Vector2(111.14288, 105.000015)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhldh"]
+size = Vector2(107.71431, 82.714294)
 
 [node name="Window" type="StaticBody2D" unique_id=1014796266]
 scale = Vector2(1.75, 1.75)
@@ -30,54 +50,147 @@ texture = ExtResource("1_ue6hi")
 
 [node name="Windows12" type="Sprite2D" parent="." unique_id=273661754]
 visible = false
+position = Vector2(6.285715, 0)
 texture = ExtResource("2_8gn0o")
 
 [node name="Windows13" type="Sprite2D" parent="." unique_id=1632838036]
 visible = false
+position = Vector2(6.857144, 0)
 texture = ExtResource("3_xepyp")
 
 [node name="Windows21" type="Sprite2D" parent="." unique_id=257266889]
 visible = false
+position = Vector2(6.2857146, 0)
 texture = ExtResource("4_wt6gw")
 
 [node name="Windows22" type="Sprite2D" parent="." unique_id=1490980542]
 visible = false
+position = Vector2(6.8571434, 0)
 texture = ExtResource("5_umcj5")
 
 [node name="Windows31" type="Sprite2D" parent="." unique_id=380817427]
 visible = false
+position = Vector2(6.8571434, 0)
 texture = ExtResource("6_g1ats")
 
 [node name="Windows32" type="Sprite2D" parent="." unique_id=1811761711]
 visible = false
+position = Vector2(6.8571434, 0)
 texture = ExtResource("7_miwbd")
 
 [node name="Windows33" type="Sprite2D" parent="." unique_id=619917045]
 visible = false
+position = Vector2(5.714287, 1.1428572)
 texture = ExtResource("8_s2spp")
 
 [node name="Windows41" type="Sprite2D" parent="." unique_id=1243420831]
 visible = false
+position = Vector2(6.8571434, -1.1428572)
 texture = ExtResource("9_c3t7y")
 
 [node name="Windows51" type="Sprite2D" parent="." unique_id=514994007]
 visible = false
+position = Vector2(5.142857, -1.1428572)
 texture = ExtResource("10_5xjww")
 
 [node name="Windows52" type="Sprite2D" parent="." unique_id=2145570918]
 visible = false
+position = Vector2(5.7142854, -0.57142854)
 texture = ExtResource("11_7xp6v")
 
 [node name="Windows53" type="Sprite2D" parent="." unique_id=1093406379]
 visible = false
+position = Vector2(5.142857, 2.9802322e-08)
 texture = ExtResource("12_km2vo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665085467]
-position = Vector2(0, 100)
+[node name="BottomSill" type="CollisionShape2D" parent="." unique_id=1665085467]
+position = Vector2(0, 99.99997)
+scale = Vector2(0.9999999, 0.9999999)
 shape = SubResource("RectangleShape2D_h3bvp")
 one_way_collision = true
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=1755709556]
+[node name="ColorRect" type="ColorRect" parent="BottomSill" unique_id=977059146]
+offset_left = -52.571438
+offset_top = -5.7142515
+offset_right = 52.571438
+offset_bottom = 5.714322
+
+[node name="TopSill" type="CollisionShape2D" parent="." unique_id=1755709556]
 position = Vector2(0, -123.42856)
 shape = SubResource("RectangleShape2D_6u2ib")
 one_way_collision = true
+
+[node name="ColorRect" type="ColorRect" parent="TopSill" unique_id=45710030]
+offset_left = -52.000008
+offset_top = -5.7142515
+offset_right = 53.142868
+offset_bottom = 5.714322
+
+[node name="Obstacle1" type="Area2D" parent="." unique_id=2097925360]
+visible = false
+position = Vector2(0, 41.714264)
+
+[node name="Shape" type="CollisionShape2D" parent="Obstacle1" unique_id=754796661]
+scale = Vector2(0.99999976, 0.99999976)
+shape = SubResource("RectangleShape2D_f3yi2")
+
+[node name="Plant" type="Sprite2D" parent="Obstacle1" unique_id=651859341]
+position = Vector2(0, -4.5714226)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("14_gdrsd")
+
+[node name="Obstacle2" type="Area2D" parent="." unique_id=796644226]
+visible = false
+position = Vector2(0, 45.714287)
+
+[node name="Shape" type="CollisionShape2D" parent="Obstacle2" unique_id=371274047]
+position = Vector2(4.571423, -0.85715485)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_t6fri")
+
+[node name="Plant" type="Sprite2D" parent="Obstacle2" unique_id=1708838872]
+position = Vector2(4, -11.428566)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("15_gv53g")
+
+[node name="Obstacle3" type="Area2D" parent="." unique_id=1912096815]
+visible = false
+position = Vector2(0, 34.28571)
+
+[node name="Shape" type="CollisionShape2D" parent="Obstacle3" unique_id=1574825498]
+position = Vector2(-0.14286038, 7.6293945e-06)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_feb5b")
+
+[node name="Plant" type="Sprite2D" parent="Obstacle3" unique_id=660734290]
+position = Vector2(0, -7.4285507)
+scale = Vector2(0.99999994, 0.99999994)
+texture = ExtResource("16_gfpcd")
+
+[node name="Obstacle4" type="Area2D" parent="." unique_id=1994098408]
+visible = false
+position = Vector2(-2.0861626e-07, 70.28569)
+
+[node name="Shape" type="CollisionShape2D" parent="Obstacle4" unique_id=1105518543]
+position = Vector2(-0.14286041, -0.07142258)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_34f8m")
+
+[node name="Plant" type="Sprite2D" parent="Obstacle4" unique_id=798095047]
+position = Vector2(1.1428566, -13.714287)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("17_gm4x8")
+
+[node name="Obstacle5" type="Area2D" parent="." unique_id=53775353]
+visible = false
+position = Vector2(0, 82.28572)
+
+[node name="Shape" type="CollisionShape2D" parent="Obstacle5" unique_id=1308823811]
+position = Vector2(-0.14286041, 0.2142868)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_mhldh")
+
+[node name="Plant6" type="Sprite2D" parent="Obstacle5" unique_id=1438707310]
+position = Vector2(0.5714302, -13.714283)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("18_qhcv8")

@@ -31,10 +31,10 @@ func _physics_process(delta):
 	var direction = Input.get_axis("ui_left", "ui_right")
 	
 	if input_enabled and direction:
-		velocity.x = direction * speed
+		velocity.x = move_toward(velocity.x, direction * speed, delta * speed)
 		anim.flip_h = direction < 0
 	else:
-		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.x = move_toward(velocity.x, 0, delta * speed)
 
 	# 4. Air Animation logic
 	if not is_on_floor():

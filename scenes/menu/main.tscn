@@ -106,6 +106,18 @@ text = "Normal"
 layout_mode = 2
 text = "Hard"
 
+[node name="SeedContainer" type="HBoxContainer" parent="Menu/BuildingsContainer" unique_id=1645214024]
+layout_mode = 2
+alignment = 1
+
+[node name="SeedLabel" type="Label" parent="Menu/BuildingsContainer/SeedContainer" unique_id=792185772]
+layout_mode = 2
+text = "Seed:"
+
+[node name="SeedEdit" type="LineEdit" parent="Menu/BuildingsContainer/SeedContainer" unique_id=101157861]
+layout_mode = 2
+size_flags_horizontal = 3
+
 [node name="Transition" parent="." unique_id=2123586616 instance=ExtResource("4_ynvfx")]
 visible = false
 layout_mode = 1
@@ -117,3 +129,4 @@ layout_mode = 1
 [connection signal="pressed" from="Menu/BuildingsContainer/BuildingsEasyButton" to="." method="_on_buildings_easy_button_pressed"]
 [connection signal="pressed" from="Menu/BuildingsContainer/BuildingsNormalButton" to="." method="_on_buildings_normal_button_pressed"]
 [connection signal="pressed" from="Menu/BuildingsContainer/BuildingsHardButton" to="." method="_on_buildings_hard_button_pressed"]
+[connection signal="text_changed" from="Menu/BuildingsContainer/SeedContainer/SeedEdit" to="." method="_on_seed_edit_text_changed"]

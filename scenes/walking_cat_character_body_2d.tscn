@@ -155,16 +155,15 @@ height = 158.0
 script = ExtResource("1_u0tb2")
 
 [node name="walking_cat_animation_2D" type="AnimatedSprite2D" parent="." unique_id=14485208]
-position = Vector2(-32, 138)
+position = Vector2(-8, -30)
 sprite_frames = SubResource("SpriteFrames_fbwgr")
 animation = &"jump"
 
 [node name="walking_cat_collision_shape_2D" type="CollisionShape2D" parent="." unique_id=574753404]
-position = Vector2(-24, 168)
 shape = SubResource("CapsuleShape2D_sqa16")
 
 [node name="walking_car_camera_2D" type="Camera2D" parent="." unique_id=1329088057]
-position = Vector2(-54, 4)
+position = Vector2(2, 4)
 
 [node name="SfxIdle" type="AudioStreamPlayer" parent="." unique_id=967953487]
 stream = ExtResource("3_4qv73")

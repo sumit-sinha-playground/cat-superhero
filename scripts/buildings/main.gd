@@ -35,6 +35,15 @@ func _ready() -> void:
 			var s = _storey_scene.instantiate()
 			s.position = Vector2(_initial_x + (i-2)*_storey_width, _initial_y - j*_storey_height)
 			s.building_type = i + 1
+			for k in 3:
+				var n = randf() * difficulty
+				var w = s.get_node(str("Window", k + 1))
+				if n > 0.75:
+					w.type = StoreyWindow.Type.Empty
+				elif n > 0.5:
+					w.type = StoreyWindow.Type.Obstacle
+				else:
+					w.type = StoreyWindow.Type.Normal
 			_storey_nodes.append(s)
 			world.add_child(s)
 			
@@ -57,8 +66,10 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(2.0).timeout
 	var initial_camera_position = camera.position.y
-	while camera.position.y > _goal_node.position.y:
-		camera.position.y -= 10
+	var target_y = _goal_node.position.y - 200
+	var camera_speed = (camera.position.y - target_y) / 300
+	while camera.position.y > target_y:
+		camera.position.y -= camera_speed
 		await get_tree().create_timer(0.01).timeout
 		
 	await get_tree().create_timer(0.5).timeout
