@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://ba1embercx8c4"]
+
+[ext_resource type="Script" uid="uid://cguvxql6byy82" path="res://scripts/suburbs/main.gd" id="1_lexqu"]
+[ext_resource type="PackedScene" uid="uid://bxi3khsucrwi" path="res://scenes/walking_cat_character_body_2d.tscn" id="2_6p05r"]
+[ext_resource type="Texture2D" uid="uid://33800ap3jdge" path="res://assets/suburbs/background.png" id="2_be5pb"]
+[ext_resource type="AudioStream" uid="uid://xm8o13tikvoo" path="res://assets/suburbs/background.mp3" id="3_6ruvh"]
+[ext_resource type="PackedScene" uid="uid://bjpjyx747nb7" path="res://scenes/suburbs/car.tscn" id="4_lexqu"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_6ruvh"]
+
+[node name="suburbs_main" type="Node2D" unique_id=1470342674]
+script = ExtResource("1_lexqu")
+car_scene = ExtResource("4_lexqu")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="." unique_id=1814085310]
+layer = -1
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground" unique_id=1756495045]
+motion_mirroring = Vector2(2816, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer" unique_id=1706100515]
+texture = ExtResource("2_be5pb")
+centered = false
+
+[node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("2_6p05r")]
+position = Vector2(1408, 958)
+scale = Vector2(0.5, 0.5)
+
+[node name="Camera2D" type="Camera2D" parent="walking_cat_character_body_2D" unique_id=492348267]
+zoom = Vector2(2, 2)
+limit_left = 0
+limit_top = 0
+limit_bottom = 1536
+position_smoothing_enabled = true
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1426682197]
+position = Vector2(0, 1008)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=530651345]
+shape = SubResource("WorldBoundaryShape2D_6ruvh")
+
+[node name="BackgroundMusic" type="AudioStreamPlayer" parent="." unique_id=348838954]
+stream = ExtResource("3_6ruvh")
+autoplay = true
+
+[node name="Timer" type="Timer" parent="." unique_id=1437268908]
+wait_time = 10.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_car_timer_timeout"]

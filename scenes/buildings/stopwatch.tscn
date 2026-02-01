@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://cga368s3pidw7"]
+
+[ext_resource type="Script" uid="uid://7apti7cib0fr" path="res://scripts/buildings/stopwatch.gd" id="1_5v0vx"]
+
+[node name="Stopwatch" type="Label" unique_id=1465637631]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -90.0
+offset_bottom = 17.0
+grow_horizontal = 0
+text = "0:00.000"
+horizontal_alignment = 2
+vertical_alignment = 1
+script = ExtResource("1_5v0vx")

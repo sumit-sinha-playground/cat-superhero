@@ -18,9 +18,6 @@ I think we can just use coloured rectangles for now and generate nicer assets la
 * "A pixel-art sprite sheet, space 6 frames evenly in a row. A cat on a white background. The row of frames should animate a cat standing still and looking around."
 
 Future ideas:
-* Fix cat jump whilst running
-* Fix cat animations
-* Menus - way to select different levels and transition after levels
 * Create an intro video
 * Add audio
 * Multiplayer - multiple cats and then it's a race to the end? Experiment with controllers

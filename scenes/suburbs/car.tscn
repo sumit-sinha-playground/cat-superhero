@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://bjpjyx747nb7"]
+
+[ext_resource type="Script" uid="uid://0x5ij50rrvfd" path="res://scripts/suburbs/car.gd" id="1_1lp56"]
+[ext_resource type="Texture2D" uid="uid://c2w73ue6lmi28" path="res://assets/suburbs/car-sprite.png" id="1_qg8b7"]
+[ext_resource type="AudioStream" uid="uid://cdrokomgrvvgy" path="res://assets/suburbs/car.mp3" id="3_n1i01"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lp56"]
+atlas = ExtResource("1_qg8b7")
+region = Rect2(0, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1i01"]
+atlas = ExtResource("1_qg8b7")
+region = Rect2(512, 0, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d40it"]
+atlas = ExtResource("1_qg8b7")
+region = Rect2(0, 512, 512, 512)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2vp3"]
+atlas = ExtResource("1_qg8b7")
+region = Rect2(512, 512, 512, 512)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wsmkv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lp56")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n1i01")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d40it")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2vp3")
+}],
+"loop": true,
+"name": &"drive",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1lp56"]
+size = Vector2(4532.6494, 2708.2769)
+
+[node name="Car" type="Node2D" unique_id=1891170683]
+scale = Vector2(0.8, 0.8)
+script = ExtResource("1_1lp56")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=603173341]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D" unique_id=304204899]
+position = Vector2(0, -7.6293945e-06)
+sprite_frames = SubResource("SpriteFrames_wsmkv")
+animation = &"drive"
+frame_progress = 0.15629105
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=19537439]
+position = Vector2(33.039368, -29)
+scale = Vector2(0.084260054, 0.07100087)
+shape = SubResource("RectangleShape2D_1lp56")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="." unique_id=940530371]
+
+[node name="DespawnTimer" type="Timer" parent="." unique_id=1720356401]
+wait_time = 10.0
+one_shot = true
+
+[node name="CarBackgroundNoise" type="AudioStreamPlayer" parent="." unique_id=383734131]
+stream = ExtResource("3_n1i01")
+autoplay = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

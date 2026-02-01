@@ -1,7 +1,10 @@
-[gd_scene format=3 uid="uid://42ttixwt4pbn"]
+[gd_scene format=3 uid="uid://bxi3khsucrwi"]
 
 [ext_resource type="Script" uid="uid://c1gvb10m0o8d" path="res://scripts/walking_cat_character_body_2d.gd" id="1_u0tb2"]
 [ext_resource type="Texture2D" uid="uid://dkvjw2hlru11w" path="res://assets/sprite.png" id="2_160bs"]
+[ext_resource type="AudioStream" uid="uid://j021jqnr4j5g" path="res://assets/cat/idle.mp3" id="3_4qv73"]
+[ext_resource type="AudioStream" uid="uid://dnh162ihfj1f7" path="res://assets/cat/jump.mp3" id="4_bhea1"]
+[ext_resource type="AudioStream" uid="uid://bpmiu1at0cpwx" path="res://assets/cat/running.mp3" id="5_w3yjf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t7jqb"]
 atlas = ExtResource("2_160bs")
@@ -15,21 +18,9 @@ region = Rect2(225, 0, 225, 225)
 atlas = ExtResource("2_160bs")
 region = Rect2(450, 0, 225, 225)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ea1gx"]
-atlas = ExtResource("2_160bs")
-region = Rect2(0, 450, 225, 225)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_i0vpq"]
-atlas = ExtResource("2_160bs")
-region = Rect2(225, 450, 225, 225)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s6nks"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhea1"]
 atlas = ExtResource("2_160bs")
 region = Rect2(450, 450, 225, 225)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_djy75"]
-atlas = ExtResource("2_160bs")
-region = Rect2(675, 450, 225, 225)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a14r6"]
 atlas = ExtResource("2_160bs")
@@ -78,7 +69,7 @@ region = Rect2(675, 675, 225, 225)
 [sub_resource type="SpriteFrames" id="SpriteFrames_fbwgr"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 10.0,
 "texture": SubResource("AtlasTexture_t7jqb")
 }, {
 "duration": 1.0,
@@ -86,6 +77,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tdd7n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qb40d")
 }],
 "loop": true,
 "name": &"idle",
@@ -93,18 +87,9 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ea1gx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_i0vpq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s6nks")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_djy75")
+"texture": SubResource("AtlasTexture_bhea1")
 }],
-"loop": true,
+"loop": false,
 "name": &"jump",
 "speed": 5.0
 }, {
@@ -172,8 +157,7 @@ script = ExtResource("1_u0tb2")
 [node name="walking_cat_animation_2D" type="AnimatedSprite2D" parent="." unique_id=14485208]
 position = Vector2(-32, 138)
 sprite_frames = SubResource("SpriteFrames_fbwgr")
-animation = &"walk"
-frame_progress = 0.20307517
+animation = &"jump"
 
 [node name="walking_cat_collision_shape_2D" type="CollisionShape2D" parent="." unique_id=574753404]
 position = Vector2(-24, 168)
@@ -181,3 +165,12 @@ shape = SubResource("CapsuleShape2D_sqa16")
 
 [node name="walking_car_camera_2D" type="Camera2D" parent="." unique_id=1329088057]
 position = Vector2(-54, 4)
+
+[node name="SfxIdle" type="AudioStreamPlayer" parent="." unique_id=967953487]
+stream = ExtResource("3_4qv73")
+
+[node name="SfxJump" type="AudioStreamPlayer" parent="." unique_id=969748560]
+stream = ExtResource("4_bhea1")
+
+[node name="SfxRun" type="AudioStreamPlayer" parent="." unique_id=1341599075]
+stream = ExtResource("5_w3yjf")
