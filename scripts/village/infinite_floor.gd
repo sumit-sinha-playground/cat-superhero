@@ -2,6 +2,7 @@ extends Node2D
 
 const ALLOWED_GROUNDS = [1, 10, 11, 12]
 const ROCK_TYPES = [1, 2] 
+const MAIN_MENU_SCENE = "res://scenes/menu/main.tscn"
 
 const PUPPY_SCENE = preload("res://scenes/village/puppy.tscn")
 const RAT_SCENE = preload("res://scenes/village/rat.tscn") 
@@ -58,6 +59,7 @@ var right_ground_id: int = 1
 
 var puppy_spawned: bool = false
 var puppy_node: Node2D = null 
+var game_over: bool = false
 
 # Track the absolute lowest point (highest Y) to ensure camera covers deep pits
 var max_floor_y_limit: int = 0
@@ -73,6 +75,7 @@ func _ready():
 	right_ground_id = 1
 	last_stall_count = 0
 	active_rats.clear()
+	game_over = false
 	
 	if tile_width <= 0:
 		_auto_detect_tile_width()
@@ -95,6 +98,8 @@ func _ready():
 	_run_intro_camera_sequence()
 
 func _physics_process(delta: float) -> void:
+	if game_over: return
+
 	# Handle Rat Movement
 	for rat_data in active_rats:
 		if rat_data.get("is_dead", false) or not is_instance_valid(rat_data["area"]):
@@ -198,11 +203,12 @@ func _run_intro_camera_sequence() -> void:
 	
 	# 5. Restore control
 	tween.tween_callback(func():
-		camera.top_level = false
-		camera.position = original_position
-		# FIX: Use the calculated max limit (lowest point) instead of just current_floor_y
-		camera.limit_bottom = max_floor_y_limit
-		player.set_physics_process(true)
+		if not game_over:
+			camera.top_level = false
+			camera.position = original_position
+			# FIX: Use the calculated max limit (lowest point) instead of just current_floor_y
+			camera.limit_bottom = max_floor_y_limit
+			player.set_physics_process(true)
 	)
 
 func _get_player() -> Node2D:
@@ -291,7 +297,7 @@ func _spawn_rat(x_pos: int, y_base: int) -> void:
 	rat_area.body_entered.connect(_on_rat_body_entered.bind(rat_data))
 
 func _on_rat_body_entered(body: Node2D, rat_data: Dictionary) -> void:
-	if rat_data["is_dead"]: return
+	if rat_data["is_dead"] or game_over: return
 
 	# 1. Player Collision Logic
 	if "walking_cat" in body.name:
@@ -316,15 +322,12 @@ func _on_rat_body_entered(body: Node2D, rat_data: Dictionary) -> void:
 			if is_instance_valid(rat_area):
 				rat_area.queue_free()
 		else:
-			# --- GAME OVER ---
-			call_deferred("_restart_scene")
+			# --- GAME OVER (Hit by Rat) ---
+			_trigger_game_end()
 		
 	# 2. Collision with Stall -> Turn Around
 	elif body.is_in_group("stall"):
 		rat_data["dir"] *= -1
-
-func _restart_scene():
-	get_tree().reload_current_scene()
 
 func _spawn_puppy(x_pos: int, y_base: int) -> void:
 	var puppy_inst = PUPPY_SCENE.instantiate()
@@ -343,8 +346,40 @@ func _spawn_puppy(x_pos: int, y_base: int) -> void:
 			area.body_entered.connect(_on_puppy_body_entered.bind(anim_sprite))
 
 func _on_puppy_body_entered(body: Node2D, anim_sprite: AnimatedSprite2D) -> void:
-	if "walking_cat" in body.name:
+	if "walking_cat" in body.name and not game_over:
 		anim_sprite.play("happy")
+		
+		# --- PLAY SFX HAPPY ---
+		if puppy_node:
+			var sfx_happy = puppy_node.get_node_or_null("SfxHappy")
+			if sfx_happy:
+				sfx_happy.play()
+		
+		# Wait 4.0 seconds (doubled from 2.0) before exiting
+		await get_tree().create_timer(4.0).timeout
+		_trigger_game_end()
+
+func _trigger_game_end() -> void:
+	if game_over: return
+	game_over = true
+	
+	# 1. Stop Player Input
+	var player = await _get_player()
+	if player:
+		player.set_physics_process(false)
+		if "velocity" in player:
+			player.velocity = Vector2.ZERO
+	
+	# 2. Stop Rats (Handled in _physics_process by game_over flag)
+	
+	# 3. Wait 1.0 seconds (doubled from 0.5) so the user sees what happened
+	await get_tree().create_timer(1.0).timeout
+	
+	# 4. Change to Main Scene
+	if ResourceLoader.exists(MAIN_MENU_SCENE):
+		get_tree().change_scene_to_file(MAIN_MENU_SCENE)
+	else:
+		push_error("Main Menu scene not found at: " + MAIN_MENU_SCENE)
 
 func _add_tile(x_pos: int) -> void:
 	var ground_id = _get_next_ground_id(right_ground_id)

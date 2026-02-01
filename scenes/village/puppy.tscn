@@ -74,6 +74,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r3ohv"]
+size = Vector2(300.00012, 230.00006)
 
 [node name="Puppy" type="Node2D" unique_id=443114843]
 
@@ -86,6 +87,8 @@ animation = &"sad"
 frame_progress = 0.96583694
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1723602517]
+position = Vector2(-4.9999886, -2.3841844e-06)
+scale = Vector2(0.99999946, 0.99999946)
 shape = SubResource("RectangleShape2D_r3ohv")
 
 [node name="SfxSad" type="AudioStreamPlayer" parent="." unique_id=914723598]
