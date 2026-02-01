@@ -1,9 +1,12 @@
 extends Node2D
 
+@export var difficulty = 0
+
 var _initial_x = 8
 var _initial_y = -580
 var _buildings = 5
-var _storeys = 2
+var _min_storeys = 2
+var _storey_mult = 2
 var _storey_nodes = []
 var _storey_width = 986
 var _storey_height = 512
@@ -18,8 +21,17 @@ func _ready() -> void:
 	$Cat.disable_input()
 	$BackgroundAudio.play()
 	var world = $World
+	var storeys = []
+	var max_storeys = 0
 	for i in _buildings:
-		for j in _storeys:
+		storeys.append(_min_storeys + i * difficulty * _storey_mult)
+		max_storeys = max(max_storeys, storeys[-1])
+	storeys = storeys.slice(0, _buildings - 1)
+	storeys.shuffle()
+	storeys.insert(_buildings / 2, max_storeys)
+
+	for i in _buildings:
+		for j in storeys[i]:
 			var s = _storey_scene.instantiate()
 			s.position = Vector2(_initial_x + (i-2)*_storey_width, _initial_y - j*_storey_height)
 			s.building_type = i + 1
@@ -27,13 +39,13 @@ func _ready() -> void:
 			world.add_child(s)
 			
 		var r = _roof_scene.instantiate()
-		r.position = Vector2(_initial_x + (i-2)*_storey_width, _initial_y - _storeys*_storey_height + 50)
+		r.position = Vector2(_initial_x + (i-2)*_storey_width, _initial_y - storeys[i]*_storey_height + 50)
 		r.building_type = i + 1
 		_roof_nodes.append(r)
 		world.add_child(r)
 		
 	_goal_node = _goal_scene.instantiate()
-	_goal_node.position = Vector2(_initial_x, _initial_y - _storeys*_storey_height - 230)
+	_goal_node.position = Vector2(_initial_x, _initial_y - max_storeys*_storey_height - 230)
 	_goal_node.body_entered.connect(_on_goal_reached)
 	world.add_child(_goal_node)
 	
