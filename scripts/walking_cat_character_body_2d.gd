@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+class_name Cat
+
 @export var speed: float = 800.0
 @export var jump_velocity: float = -800.0
 

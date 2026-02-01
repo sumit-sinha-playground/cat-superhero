@@ -31,7 +31,7 @@ func _ready() -> void:
 		o.body_entered.connect(_on_obstacle_body_entered.bind(o))
 
 func _on_obstacle_body_entered(body: Node2D, obstacle: Area2D) -> void:
-	var player := body as CharacterBody2D
+	var player := body as Cat
 	if not player:
 		return
 	var normal = player.global_position - obstacle.global_position
