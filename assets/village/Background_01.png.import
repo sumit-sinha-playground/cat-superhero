@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vm6y53dh67w1"
-path="res://.godot/imported/Ground_08.png-d38aa3c5bb728080456a45e4600d5afc.ctex"
+uid="uid://beufwy8wdncmd"
+path="res://.godot/imported/Background_01.png-4850d26b2b3ca42988313f92ff5e8619.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/village/Ground_08.png"
-dest_files=["res://.godot/imported/Ground_08.png-d38aa3c5bb728080456a45e4600d5afc.ctex"]
+source_file="res://assets/village/Background_01.png"
+dest_files=["res://.godot/imported/Background_01.png-4850d26b2b3ca42988313f92ff5e8619.ctex"]
 
 [params]
 

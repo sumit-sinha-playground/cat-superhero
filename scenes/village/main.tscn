@@ -10,3 +10,4 @@ script = ExtResource("2_b")
 [node name="InfiniteFloor" parent="." unique_id=2143658709 instance=ExtResource("3_c")]
 
 [node name="walking_cat_character_body_2D" parent="." unique_id=916024553 instance=ExtResource("1_a")]
+scale = Vector2(0.4, 0.4)
