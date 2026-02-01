@@ -1,3 +1,4 @@
 [gd_scene format=3 uid="uid://qr27mdmehp6y"]
 
-[node name="tree" type="Node2D" unique_id=687391637]
+[node name="Player" type="Area2D" unique_id=7166848]
+metadata/_edit_group_ = true

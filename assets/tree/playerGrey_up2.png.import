@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwu45rc6awy5v"
-path="res://.godot/imported/large-tree-with-many-branches-and-leaves-png.png-77c14502ae1a61cb9d0970fda9e19bcf.ctex"
+uid="uid://jsjcmfukafvx"
+path="res://.godot/imported/playerGrey_up2.png-e3d51657ac8eda87bfd63fea4f185caa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tree/large-tree-with-many-branches-and-leaves-png.png"
-dest_files=["res://.godot/imported/large-tree-with-many-branches-and-leaves-png.png-77c14502ae1a61cb9d0970fda9e19bcf.ctex"]
+source_file="res://assets/tree/playerGrey_up2.png"
+dest_files=["res://.godot/imported/playerGrey_up2.png-e3d51657ac8eda87bfd63fea4f185caa.ctex"]
 
 [params]
 

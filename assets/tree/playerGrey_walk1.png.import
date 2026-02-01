@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bbb7pvskh1suv"
-path="res://.godot/imported/tree_1.png-fe7ab52d1e57a2c7c61496570ae95bce.ctex"
+uid="uid://c657wk06ulq4m"
+path="res://.godot/imported/playerGrey_walk1.png-7dab43919344bf7600a5c229dbc484b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tree/tree_1.png"
-dest_files=["res://.godot/imported/tree_1.png-fe7ab52d1e57a2c7c61496570ae95bce.ctex"]
+source_file="res://assets/tree/playerGrey_walk1.png"
+dest_files=["res://.godot/imported/playerGrey_walk1.png-7dab43919344bf7600a5c229dbc484b7.ctex"]
 
 [params]
 
@@ -37,4 +37,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=0
+detect_3d/compress_to=1
