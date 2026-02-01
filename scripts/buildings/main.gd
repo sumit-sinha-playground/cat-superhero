@@ -19,7 +19,7 @@ var _roof_scene = load("res://scenes/buildings/roof.tscn")
 var _goal_scene = load("res://scenes/buildings/goal.tscn")
 
 func _ready() -> void:
-	$Cat.disable_input()
+	$Cat.input_enabled = false
 	$BackgroundAudio.play()
 	var world = $World
 	var storeys = []
@@ -92,8 +92,17 @@ func _ready() -> void:
 
 	_goal_node.get_node("AnimatedSprite2D").play()
 	_goal_node.get_node("AnimatedSprite2D").speed_scale = 1
-	$Cat.enable_input()
+	$Cat.input_enabled = true
+	if $Cat2.visible:
+		$Cat2.input_enabled = true
 	$CanvasLayer/UserInterface/Timer.start()
+
+func _process(delta):
+	if Input.is_action_just_pressed("join_p2") and not $Cat2.visible:
+		$CanvasLayer/UserInterface/P2Label.visible = false
+		$Cat2.visible = true
+		if $Cat.input_enabled:
+			$Cat2.input_enabled = true
 
 func _on_goal_reached(body):
 	if body is Cat:

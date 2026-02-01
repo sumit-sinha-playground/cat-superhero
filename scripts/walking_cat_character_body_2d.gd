@@ -4,8 +4,8 @@ class_name Cat
 
 @export var speed: float = 800.0
 @export var jump_velocity: float = -800.0
-
-var input_enabled = true
+@export var input_enabled = true
+@export var player2 = false
 
 # Get the gravity from the project settings
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -18,6 +18,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
 	add_to_group("cat")
+	
+func _get_input(s):
+	if player2:
+		return str(s, "_p2")
+	return s
 
 func _physics_process(delta):
 	# 1. Apply Gravity
@@ -25,12 +30,12 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# 2. Handle Jump (Space Bar)
-	if input_enabled and Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if input_enabled and Input.is_action_just_pressed(_get_input("move_up")) and is_on_floor():
 		velocity.y = jump_velocity
 		sfx_jump.play() # Play jump once
 
 	# 3. Get Movement Input (Left/Right)
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var direction = Input.get_axis(_get_input("move_left"), _get_input("move_right"))
 	
 	if input_enabled and direction:
 		velocity.x = move_toward(velocity.x, direction * speed, delta * speed)
@@ -71,9 +76,3 @@ func manage_audio(direction: float):
 			sfx_run.stop()
 		if sfx_idle.playing:
 			sfx_idle.stop()
-			
-func enable_input():
-	input_enabled = true
-	
-func disable_input():
-	input_enabled = false

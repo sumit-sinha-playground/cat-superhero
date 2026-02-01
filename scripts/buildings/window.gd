@@ -14,7 +14,7 @@ var _nodes = {
 }
 var _obstacles = ['Obstacle1', 'Obstacle2', 'Obstacle3', 'Obstacle4', 'Obstacle5']
 var _delayed_obstacle_index = 0
-var _delayed_obstacle_entered = false
+var _delayed_obstacle_entered = {}
 var _delayed_obstacles = ['DelayedObstacle1', 'DelayedObstacle2', 'DelayedObstacle2', 'DelayedObstacle3']
 var _delayed_obstacle_audio = ['DelayedObstacleAudio1', 'DelayedObstacleAudio21',  'DelayedObstacleAudio22', 'DelayedObstacleAudio3']
 
@@ -59,8 +59,8 @@ func _on_delayed_obstacle_hitbox_entered(body: Node2D) -> void:
 	await get_tree().create_timer(1.0).timeout
 	
 	o.visible = true
-	if _delayed_obstacle_entered:
-		_on_obstacle_body_entered(get_parent().get_parent().get_parent().get_node('Cat'), o)
+	for b in _delayed_obstacle_entered.keys():
+		_on_obstacle_body_entered(b, o)
 	
 	await get_tree().create_timer(5.0).timeout
 	
@@ -71,10 +71,10 @@ func _on_delayed_obstacle_hitbox_entered(body: Node2D) -> void:
 func _on_delayed_obstacle_body_entered(body: Node2D, obstacle: Area2D) -> void:
 	var player := body as Cat
 	if not player: return
-	_delayed_obstacle_entered = true
+	_delayed_obstacle_entered.set(body, true)
 	if obstacle.visible: _on_obstacle_body_entered(body, obstacle)
 	
 func _on_delayed_obstacle_body_exited(body: Node2D) -> void:
 	var player := body as Cat
 	if not player: return
-	_delayed_obstacle_entered = false
+	_delayed_obstacle_entered.erase(body)
