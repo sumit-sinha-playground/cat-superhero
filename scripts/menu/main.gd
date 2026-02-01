@@ -2,6 +2,7 @@ extends Control
 
 var _tree_scene = "res://scenes/level_tree.tscn"
 var _suburbs_scene = "res://scenes/suburbs/main.tscn"
+var _village_scene = "res://scenes/village/main.tscn"
 var _buildings_scene = "res://scenes/buildings/main.tscn"
 
 var _characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
@@ -21,6 +22,10 @@ func _on_tree_button_pressed() -> void:
 func _on_suburbs_button_pressed() -> void:
 	$ClickAudio.play()
 	get_tree().change_scene_to_file(_suburbs_scene)
+
+func _on_village_button_pressed() -> void:
+	$ClickAudio.play()
+	$Transition.transition_to(_village_scene)
 
 func _on_buildings_button_pressed() -> void:
 	$ClickAudio.play()

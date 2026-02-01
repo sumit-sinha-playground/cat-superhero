@@ -85,6 +85,10 @@ visible = false
 layout_mode = 2
 text = "Suburbs"
 
+[node name="VillageButton" type="Button" parent="Menu/LevelContainer" unique_id=1748789044]
+layout_mode = 2
+text = "Village"
+
 [node name="BuildingsButton" type="Button" parent="Menu/LevelContainer" unique_id=1723031544]
 layout_mode = 2
 text = "New York"
@@ -138,6 +142,7 @@ stream = ExtResource("6_ec7jh")
 [connection signal="pressed" from="Menu/LevelContainer/TreeButton" to="." method="_on_tree_button_pressed"]
 [connection signal="mouse_entered" from="Menu/LevelContainer/SuburbsButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="Menu/LevelContainer/SuburbsButton" to="." method="_on_suburbs_button_pressed"]
+[connection signal="pressed" from="Menu/LevelContainer/VillageButton" to="." method="_on_village_button_pressed"]
 [connection signal="mouse_entered" from="Menu/LevelContainer/BuildingsButton" to="." method="_on_button_hover"]
 [connection signal="pressed" from="Menu/LevelContainer/BuildingsButton" to="." method="_on_buildings_button_pressed"]
 [connection signal="mouse_entered" from="Menu/BuildingsContainer/BuildingsEasyButton" to="." method="_on_button_hover"]
