@@ -74,10 +74,12 @@ text = "Choose a level"
 horizontal_alignment = 1
 
 [node name="TreeButton" type="Button" parent="Menu/LevelContainer" unique_id=899698372]
+visible = false
 layout_mode = 2
 text = "Tree"
 
 [node name="SuburbsButton" type="Button" parent="Menu/LevelContainer" unique_id=351056220]
+visible = false
 layout_mode = 2
 text = "Suburbs"
 

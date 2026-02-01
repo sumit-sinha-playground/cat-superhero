@@ -25,6 +25,7 @@ func _get_player_string(s):
 	return s
 
 func _physics_process(delta):
+	if not visible: return
 	# 1. Apply Gravity
 	if not is_on_floor():
 		velocity.y += gravity * delta
