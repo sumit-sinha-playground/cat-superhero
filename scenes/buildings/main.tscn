@@ -178,6 +178,7 @@ one_way_collision = true
 
 [node name="Cat" parent="." unique_id=916024553 instance=ExtResource("2_p8fij")]
 position = Vector2(32, -422)
+speed = 1000.0
 jump_velocity = -1000.0
 
 [node name="BackgroundAudio" type="AudioStreamPlayer" parent="." unique_id=1055424439]

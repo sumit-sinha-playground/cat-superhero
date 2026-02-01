@@ -29,6 +29,10 @@ region = Rect2(2000, 0, 500, 500)
 atlas = ExtResource("1_wrcby")
 region = Rect2(2500, 0, 500, 500)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrcby"]
+atlas = ExtResource("1_wrcby")
+region = Rect2(3000, 0, 500, 500)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_vmuye"]
 animations = [{
 "frames": [{
@@ -53,6 +57,14 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wrcby")
+}],
+"loop": true,
+"name": &"thanks",
+"speed": 5.0
 }]
 
 [node name="Goal" type="Area2D" unique_id=2103544065]
@@ -64,4 +76,4 @@ shape = SubResource("RectangleShape2D_sjjy8")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=749514301]
 position = Vector2(-1, 0)
 sprite_frames = SubResource("SpriteFrames_vmuye")
-frame_progress = 0.4975143
+speed_scale = 0.0
