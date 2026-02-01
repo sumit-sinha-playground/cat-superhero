@@ -6,6 +6,8 @@ var direction: int = 1
 @onready var despawn_timer = $DespawnTimer
 @onready var sprite = $Area2D/AnimatedSprite2D
 
+signal cat_hit
+
 func _ready():
 	sprite.play("drive")
 	sprite.flip_h = (direction == -1)
@@ -29,4 +31,5 @@ func _on_despawn_timer_timeout():
 func _on_area_2d_body_entered(body):
 	if body.name.contains("cat"):
 		print("Heroic collision!")
+		cat_hit.emit()
 		queue_free()
