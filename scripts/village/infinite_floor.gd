@@ -26,7 +26,8 @@ const PUPPY_SCENE = preload("res://scenes/village/puppy.tscn")
 @export_group("Visuals")
 @export var use_background: bool = true
 @export var background_parallax: float = 0.3
-@export var bottom_margin: int = 150
+# Set bottom_margin to 0 to keep the floor at the absolute bottom
+@export var bottom_margin: int = 0
 
 var textures = {} 
 var rock_textures = {} 
@@ -36,11 +37,11 @@ var stalls = []
 var last_rock_x: float = -INF
 var last_stall_count: int = 0 
 var stall_texture: Texture2D = null
-var current_floor_y: int = 300 
+var current_floor_y: int = 0 
 var parallax_bg: ParallaxBackground = null
 var _fallback_texture: Texture2D = null
 
-var right_floor_y: int = 300
+var right_floor_y: int = 0
 var right_ground_id: int = 1
 
 var puppy_spawned: bool = false
@@ -61,22 +62,38 @@ func _ready():
 	if use_background:
 		_init_infinite_background()
 	
-	# 1. Generate the fixed range immediately
+	# 1. Generate the fixed range
 	_force_generate_range(start_x, end_x)
 	
 	# 2. Setup boundary walls
-	_add_boundary_wall(left_limit, Vector2.RIGHT) # Blocks left movement
-	_add_boundary_wall(right_limit, Vector2.LEFT) # Blocks right movement
+	_add_boundary_wall(left_limit, Vector2.RIGHT)
+	_add_boundary_wall(right_limit, Vector2.LEFT)
 	
-	# 3. Small delay to ensure engine stability
+	# 3. Small delay for stability
 	await get_tree().create_timer(0.5).timeout
 	
-	# 4. Cinematic Intro
+	# 4. Camera Setup & Intro
+	_setup_camera_limits()
 	_run_intro_camera_sequence()
 
 func _physics_process(_delta: float) -> void:
-	# Infinite generation removed as per request
 	pass
+
+func _update_floor_y() -> void:
+	# This sets the y-coordinate to the bottom of the viewport
+	current_floor_y = int(get_viewport_rect().size.y - bottom_margin)
+
+func _setup_camera_limits() -> void:
+	var player = get_node_or_null("../walking_cat_character_body_2D")
+	if not player: return
+	var camera = player.get_node_or_null("walking_car_camera_2D")
+	if not camera: return
+	
+	# Force the camera to stop at the floor level
+	camera.limit_bottom = current_floor_y
+	# Set limits for the sides as well
+	camera.limit_left = left_limit
+	camera.limit_right = right_limit
 
 func _force_generate_range(min_x: int, max_x: int) -> void:
 	var current_x = min_x
@@ -88,11 +105,9 @@ func _force_generate_range(min_x: int, max_x: int) -> void:
 func _add_boundary_wall(x_pos: int, normal_dir: Vector2) -> void:
 	var wall = StaticBody2D.new()
 	wall.position = Vector2(x_pos, current_floor_y)
-	
 	var collision = CollisionShape2D.new()
 	var shape = WorldBoundaryShape2D.new()
 	shape.normal = normal_dir
-	
 	collision.shape = shape
 	wall.add_child(collision)
 	add_child(wall)
@@ -109,8 +124,12 @@ func _run_intro_camera_sequence() -> void:
 		return
 
 	var original_position = camera.position
+	var original_limit_bottom = camera.limit_bottom
+	
 	camera.top_level = true 
 	camera.global_position = player.global_position
+	# Disable limits during the cinematic for smooth movement
+	camera.limit_bottom = 100000 
 
 	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(camera, "global_position", puppy_node.global_position, 3.5)
@@ -120,6 +139,7 @@ func _run_intro_camera_sequence() -> void:
 	tween.tween_callback(func():
 		camera.top_level = false
 		camera.position = original_position
+		camera.limit_bottom = original_limit_bottom
 		player.set_physics_process(true)
 	)
 
@@ -147,14 +167,17 @@ func _spawn_puppy(x_pos: int, y_base: int) -> void:
 	var floor_h = 64
 	if textures.has(1): floor_h = textures[1].get_height()
 	
+	# Position puppy on top of the ground
 	puppy_inst.position = Vector2(x_pos, y_base + floor_offset - floor_h - 100)
 	add_child(puppy_inst)
 	puppy_node = puppy_inst
 	
-	var area = puppy_inst.get_node("Area2D")
-	var anim_sprite = area.get_node("AnimatedSprite2D")
-	anim_sprite.play("sad")
-	area.body_entered.connect(_on_puppy_body_entered.bind(anim_sprite))
+	var area = puppy_inst.get_node_or_null("Area2D")
+	if area:
+		var anim_sprite = area.get_node_or_null("AnimatedSprite2D")
+		if anim_sprite:
+			anim_sprite.play("sad")
+			area.body_entered.connect(_on_puppy_body_entered.bind(anim_sprite))
 
 func _on_puppy_body_entered(body: Node2D, anim_sprite: AnimatedSprite2D) -> void:
 	if "walking_cat" in body.name:
@@ -280,9 +303,6 @@ func _auto_detect_tile_width():
 			tile_width = int(textures[id].get_width())
 			break
 	if tile_width <= 0: tile_width = 128
-
-func _update_floor_y() -> void:
-	current_floor_y = int(get_viewport_rect().size.y - bottom_margin)
 
 func _init_infinite_background() -> void:
 	parallax_bg = ParallaxBackground.new()
