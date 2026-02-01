@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var difficulty = 0
+@export var difficulty = 2
 
 var _initial_x = 8
 var _initial_y = -580
@@ -53,6 +53,8 @@ func _ready() -> void:
 					w.type = StoreyWindow.Type.Empty
 				elif not is_on_critical_path and n > 0.5:
 					w.type = StoreyWindow.Type.Obstacle
+				elif is_on_critical_path and n > 0.75:
+					w.type = StoreyWindow.Type.DelayedObstacle
 				else:
 					w.type = StoreyWindow.Type.Normal
 			_storey_nodes.append(s)

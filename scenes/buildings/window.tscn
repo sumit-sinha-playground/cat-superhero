@@ -18,6 +18,13 @@
 [ext_resource type="Texture2D" uid="uid://bspnsxyw3vjfi" path="res://assets/buildings/plant_3.png" id="16_gfpcd"]
 [ext_resource type="Texture2D" uid="uid://bfvn781gvft87" path="res://assets/buildings/plant_4.png" id="17_gm4x8"]
 [ext_resource type="Texture2D" uid="uid://7yy3ukmi31f8" path="res://assets/buildings/plant_5.png" id="18_qhcv8"]
+[ext_resource type="Texture2D" uid="uid://d28fwjpmjydvv" path="res://assets/buildings/person_1.png" id="19_gm4x8"]
+[ext_resource type="Texture2D" uid="uid://c08f7wj22758k" path="res://assets/buildings/person_2.png" id="20_qhcv8"]
+[ext_resource type="Texture2D" uid="uid://s2lyui8iwjhq" path="res://assets/buildings/person_3.png" id="21_f3yi2"]
+[ext_resource type="AudioStream" uid="uid://02imeuj766l0" path="res://assets/buildings/hey11.mp3" id="22_feb5b"]
+[ext_resource type="AudioStream" uid="uid://owtsqdhdfd4f" path="res://assets/buildings/hey21.mp3" id="23_34f8m"]
+[ext_resource type="AudioStream" uid="uid://bxb2vpc8wl0ic" path="res://assets/buildings/hey22.mp3" id="24_qiyoq"]
+[ext_resource type="AudioStream" uid="uid://bl4to6yqt1jyu" path="res://assets/buildings/hey31.mp3" id="25_6fv1q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h3bvp"]
 size = Vector2(105.14286, 11)
@@ -39,6 +46,18 @@ size = Vector2(111.14288, 105.000015)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mhldh"]
 size = Vector2(107.71431, 82.714294)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qiyoq"]
+size = Vector2(82.285736, 188.00006)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6fv1q"]
+size = Vector2(115.57145, 139.42862)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5r3t5"]
+size = Vector2(84.85716, 142.92862)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wab6e"]
+size = Vector2(84.85716, 120.00004)
 
 [node name="Window" type="StaticBody2D" unique_id=1014796266]
 scale = Vector2(1.75, 1.75)
@@ -194,3 +213,65 @@ shape = SubResource("RectangleShape2D_mhldh")
 position = Vector2(0.5714302, -13.714283)
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("18_qhcv8")
+
+[node name="DelayedObstacleHitbox" type="Area2D" parent="." unique_id=787872004]
+visible = false
+position = Vector2(0, 41.71426)
+scale = Vector2(0.99999994, 0.99999994)
+
+[node name="Shape" type="CollisionShape2D" parent="DelayedObstacleHitbox" unique_id=1266764627]
+position = Vector2(0.5714286, -42.5714)
+scale = Vector2(0.99999976, 0.99999976)
+shape = SubResource("RectangleShape2D_qiyoq")
+
+[node name="DelayedObstacle1" type="Area2D" parent="." unique_id=1556656358]
+visible = false
+position = Vector2(24.57143, 64.571396)
+
+[node name="Shape" type="CollisionShape2D" parent="DelayedObstacle1" unique_id=1106166327]
+position = Vector2(-0.6428604, -34.28567)
+scale = Vector2(0.9999996, 0.9999996)
+shape = SubResource("RectangleShape2D_6fv1q")
+
+[node name="Person" type="Sprite2D" parent="DelayedObstacle1" unique_id=882857417]
+position = Vector2(-2.8571472, -41.142838)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("19_gm4x8")
+
+[node name="DelayedObstacle2" type="Area2D" parent="." unique_id=2131466350]
+visible = false
+position = Vector2(0, 23.428547)
+
+[node name="Shape" type="CollisionShape2D" parent="DelayedObstacle2" unique_id=1046546119]
+position = Vector2(0, 4.5357304)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_5r3t5")
+
+[node name="Person" type="Sprite2D" parent="DelayedObstacle2" unique_id=606768256]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("20_qhcv8")
+
+[node name="DelayedObstacle3" type="Area2D" parent="." unique_id=1839065964]
+visible = false
+position = Vector2(0, 32.571404)
+
+[node name="Shape" type="CollisionShape2D" parent="DelayedObstacle3" unique_id=743322180]
+position = Vector2(0, 7.4285965)
+scale = Vector2(0.9999996, 0.9999996)
+shape = SubResource("RectangleShape2D_wab6e")
+
+[node name="Person" type="Sprite2D" parent="DelayedObstacle3" unique_id=214668006]
+scale = Vector2(0.99999994, 0.99999994)
+texture = ExtResource("21_f3yi2")
+
+[node name="DelayedObstacleAudio1" type="AudioStreamPlayer" parent="." unique_id=918521929]
+stream = ExtResource("22_feb5b")
+
+[node name="DelayedObstacleAudio21" type="AudioStreamPlayer" parent="." unique_id=191067337]
+stream = ExtResource("23_34f8m")
+
+[node name="DelayedObstacleAudio22" type="AudioStreamPlayer" parent="." unique_id=124897869]
+stream = ExtResource("24_qiyoq")
+
+[node name="DelayedObstacleAudio3" type="AudioStreamPlayer" parent="." unique_id=1863597938]
+stream = ExtResource("25_6fv1q")
