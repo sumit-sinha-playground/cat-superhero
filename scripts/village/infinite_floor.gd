@@ -12,8 +12,8 @@ const PUPPY_SCENE = preload("res://scenes/village/puppy.tscn")
 @export var rock_scale: float = 1.0
 @export var floor_offset: int = 0 
 @export var min_rock_spacing: int = 300 
-@export var start_x: int = -500
-@export var end_x: int = 10500
+@export var start_x: int = -1000
+@export var end_x: int = 11000
 
 @export_group("Boundaries")
 @export var left_limit: int = -300
@@ -99,7 +99,15 @@ func _force_generate_range(min_x: int, max_x: int) -> void:
 	var current_x = min_x
 	while current_x <= max_x:
 		_add_tile(current_x)
-		_try_spawn_decor(current_x, right_floor_y)
+		
+		# Determine if we need to force stalls (Start or End of map)
+		var forced_stalls = -1
+		if current_x == min_x:
+			forced_stalls = 10
+		elif current_x + tile_width > max_x:
+			forced_stalls = 10
+			
+		_try_spawn_decor(current_x, right_floor_y, forced_stalls)
 		current_x += tile_width
 
 func _add_boundary_wall(x_pos: int, normal_dir: Vector2) -> void:
@@ -114,6 +122,10 @@ func _add_boundary_wall(x_pos: int, normal_dir: Vector2) -> void:
 
 func _run_intro_camera_sequence() -> void:
 	var player = await _get_player()
+	
+	# Configure player jump height based on stall height
+	_configure_player_jump_height(player)
+	
 	var camera = player.get_node_or_null("walking_car_camera_2D")
 	
 	if not camera: return
@@ -150,7 +162,22 @@ func _get_player() -> Node2D:
 		p = get_node_or_null("../walking_cat_character_body_2D")
 	return p
 
-func _try_spawn_decor(x_pos: int, y_base: int) -> void:
+func _configure_player_jump_height(player: Node2D) -> void:
+	if not stall_texture: return
+	if "jump_velocity" not in player: return
+	
+	# Calculate the height we need to clear
+	var stall_height = stall_texture.get_height() * stall_scale
+	var buffer = 40.0 # Extra clearance
+	var target_jump_height = stall_height + buffer
+	
+	# Calculate required velocity: v = sqrt(2 * g * h)
+	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+	var required_velocity = -sqrt(2.0 * gravity * target_jump_height)
+	
+	player.jump_velocity = required_velocity
+
+func _try_spawn_decor(x_pos: int, y_base: int, forced_stall_count: int = -1) -> void:
 	var is_puppy_tile = false
 	if not puppy_spawned and x_pos >= puppy_spawn_x:
 		_spawn_puppy(x_pos, y_base)
@@ -160,7 +187,7 @@ func _try_spawn_decor(x_pos: int, y_base: int) -> void:
 	if not is_puppy_tile:
 		if randf() < rock_spawn_chance:
 			_spawn_rock(x_pos, y_base)
-		_determine_and_spawn_stall(x_pos, y_base)
+		_determine_and_spawn_stall(x_pos, y_base, forced_stall_count)
 
 func _spawn_puppy(x_pos: int, y_base: int) -> void:
 	var puppy_inst = PUPPY_SCENE.instantiate()
@@ -231,16 +258,22 @@ func _spawn_rock(x_pos: int, y_base: int) -> void:
 	rocks.append(body)
 	last_rock_x = x_pos
 
-func _determine_and_spawn_stall(x_pos: int, y_base: int) -> void:
+func _determine_and_spawn_stall(x_pos: int, y_base: int, forced_count: int = -1) -> void:
 	if not stall_texture: return
 	var current_count = 0
-	var roll = randf()
-	if last_stall_count == 0:
-		if roll < 0.15: current_count = 1
+	
+	if forced_count != -1:
+		current_count = forced_count
 	else:
-		if roll < 0.20: current_count = last_stall_count + 1
-		elif roll < 0.45: current_count = last_stall_count
-		else: current_count = 0
+		# Original logic if no forced count
+		var roll = randf()
+		if last_stall_count == 0:
+			if roll < 0.15: current_count = 1
+		else:
+			if roll < 0.20: current_count = last_stall_count + 1
+			elif roll < 0.45: current_count = last_stall_count
+			else: current_count = 0
+			
 	if current_count > 0:
 		_spawn_stall(x_pos, y_base, current_count)
 	last_stall_count = current_count
