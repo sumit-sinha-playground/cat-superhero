@@ -3,6 +3,9 @@ extends Node2D
 const ALLOWED_GROUNDS = [1, 10, 11, 12]
 const ROCK_TYPES = [1, 2] 
 
+const PUPPY_SCENE = preload("res://scenes/village/puppy.tscn")
+@export var puppy_spawn_x: int = 5000 
+
 @export_group("Generation Settings")
 @export var tile_width: int = 0
 @export var rock_spawn_chance: float = 0.05 
@@ -38,12 +41,14 @@ var right_floor_y: int = 300
 var left_ground_id: int = 1
 var right_ground_id: int = 1
 
+var puppy_spawned: bool = false
+var puppy_node: Node2D = null 
+
 func _ready():
 	randomize()
 	_load_resources()
 	_update_floor_y()
 	
-	# Force initialization to prevent Nil errors
 	left_floor_y = current_floor_y
 	right_floor_y = current_floor_y
 	left_ground_id = 1
@@ -57,6 +62,15 @@ func _ready():
 
 	if use_background:
 		_init_infinite_background()
+	
+	# 1. Generate all tiles up to the puppy first
+	_force_generate_to_puppy()
+	
+	# 2. Delay to ensure everything is rendered and engine settles
+	await get_tree().create_timer(1).timeout
+	
+	# 3. Start the intro camera sequence
+	_run_intro_camera_sequence()
 
 func _physics_process(_delta: float) -> void:
 	var player = get_node_or_null("../walking_cat_character_body_2D")
@@ -76,6 +90,91 @@ func _physics_process(_delta: float) -> void:
 		_try_spawn_decor(leftmost_x, left_floor_y)
 
 	_cleanup_distant_tiles(player_x)
+
+func _force_generate_to_puppy() -> void:
+	var current_x = start_x
+	# Generate until we've covered the puppy distance plus the buffer
+	while current_x < puppy_spawn_x + (buffer_tiles * tile_width):
+		current_x += tile_width
+		_add_tile(current_x, true)
+		_try_spawn_decor(current_x, right_floor_y)
+
+func _run_intro_camera_sequence() -> void:
+	var player = await _get_player()
+	var camera = player.get_node_or_null("walking_car_camera_2D")
+	
+	if not camera: 
+		push_warning("Camera 'walking_car_camera_2D' not found!")
+		return
+	
+	# Disable player movement during the intro
+	player.set_physics_process(false)
+	
+	if not puppy_node: 
+		push_warning("Puppy node was not spawned during generation!")
+		player.set_physics_process(true)
+		return
+
+	var original_position = camera.position
+	camera.top_level = true 
+	camera.global_position = player.global_position
+
+	var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	
+	# Pan to puppy
+	tween.tween_property(camera, "global_position", puppy_node.global_position, 2.5)
+	tween.tween_interval(1.5) 
+	
+	# Pan back to player
+	tween.tween_property(camera, "global_position", player.global_position, 1.5)
+	
+	tween.tween_callback(func():
+		camera.top_level = false
+		camera.position = original_position
+		player.set_physics_process(true) # Re-enable movement
+	)
+
+func _get_player() -> Node2D:
+	var p = get_node_or_null("../walking_cat_character_body_2D")
+	while not p:
+		await get_tree().process_frame
+		p = get_node_or_null("../walking_cat_character_body_2D")
+	return p
+
+func _try_spawn_decor(x_pos: int, y_base: int) -> void:
+	if y_base == null: y_base = current_floor_y
+	
+	# Check if we should spawn the puppy at this location
+	var is_puppy_tile = false
+	if not puppy_spawned and x_pos >= puppy_spawn_x:
+		_spawn_puppy(x_pos, y_base)
+		puppy_spawned = true
+		is_puppy_tile = true
+	
+	# If it's the puppy's tile, we skip stalls and rocks to prevent overlapping
+	if not is_puppy_tile:
+		if randf() < rock_spawn_chance:
+			_spawn_rock(x_pos, y_base)
+		_determine_and_spawn_stall(x_pos, y_base)
+
+func _spawn_puppy(x_pos: int, y_base: int) -> void:
+	var puppy_inst = PUPPY_SCENE.instantiate()
+	var floor_h = 64
+	if textures.has(1): floor_h = textures[1].get_height()
+	
+	# Position puppy sitting on top of the grass with your specific -128 offset
+	puppy_inst.position = Vector2(x_pos, y_base + floor_offset - floor_h - 128)
+	add_child(puppy_inst)
+	puppy_node = puppy_inst
+	
+	var area = puppy_inst.get_node("Area2D")
+	var anim_sprite = area.get_node("AnimatedSprite2D")
+	anim_sprite.play("sad")
+	area.body_entered.connect(_on_puppy_body_entered.bind(anim_sprite))
+
+func _on_puppy_body_entered(body: Node2D, anim_sprite: AnimatedSprite2D) -> void:
+	if "walking_cat" in body.name:
+		anim_sprite.play("happy")
 
 func _add_tile(x_pos: int, at_end: bool) -> void:
 	var ground_id: int = 1
@@ -117,22 +216,13 @@ func _add_tile(x_pos: int, at_end: bool) -> void:
 		if left_floor_y == null: left_floor_y = current_floor_y
 		left_floor_y -= _get_floor_y_adjustment(ground_id)
 
-func _try_spawn_decor(x_pos: int, y_base: int) -> void:
-	if y_base == null: y_base = current_floor_y
-	if randf() < rock_spawn_chance:
-		_spawn_rock(x_pos, y_base)
-	_determine_and_spawn_stall(x_pos, y_base)
-
 func _spawn_rock(x_pos: int, y_base: int) -> void:
 	if abs(x_pos - last_rock_x) < min_rock_spacing: return
 	var rock_id = ROCK_TYPES.pick_random()
 	var rock_tex = rock_textures.get(rock_id)
 	if not rock_tex: return
-	
-	# Fix: Adjust rock to sit on top of the floor
 	var floor_h = 64
 	if textures.has(1): floor_h = textures[1].get_height()
-	
 	var body = StaticBody2D.new()
 	var tex_h = rock_tex.get_height() * rock_scale
 	var tex_w = rock_tex.get_width() * rock_scale
@@ -143,7 +233,7 @@ func _spawn_rock(x_pos: int, y_base: int) -> void:
 	sprite.texture = rock_tex
 	sprite.scale = Vector2(rock_scale, rock_scale)
 	sprite.centered = false
-	sprite.position = Vector2(-tex_w / 2.0, -tex_h / 2)
+	sprite.position = Vector2(-tex_w / 2.0, -tex_h)
 	body.add_child(sprite)
 	rocks.append(body)
 	last_rock_x = x_pos
@@ -167,14 +257,9 @@ func _determine_and_spawn_stall(x_pos: int, y_base: int) -> void:
 func _spawn_stall(x_pos: int, y_base: int, count: int) -> void:
 	var tex_w = stall_texture.get_width() * stall_scale
 	var tex_h = stall_texture.get_height() * stall_scale
-	
-	# Fix: Get floor height and subtract it so stall sits on the surface
 	var floor_h = 64
-	if textures.has(1):
-		floor_h = textures[1].get_height()
-	
+	if textures.has(1): floor_h = textures[1].get_height()
 	var ground_line = y_base + floor_offset - floor_h
-	
 	for i in range(count):
 		var body = StaticBody2D.new()
 		var vertical_position = ground_line - (tex_h * i)
@@ -199,6 +284,8 @@ func _cleanup_distant_tiles(player_x: float) -> void:
 	var limit = buffer_tiles * tile_width * 2.5
 	var filter_node = func(node):
 		if is_instance_valid(node) and abs(node.global_position.x - player_x) > limit:
+			# Keep puppy alive even when player is far away
+			if node.name.contains("Puppy"): return true
 			node.queue_free()
 			return false
 		return true
