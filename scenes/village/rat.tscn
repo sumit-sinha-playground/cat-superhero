@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://ca5jm0j7bvcmj"]
+
+[ext_resource type="Texture2D" uid="uid://xojlojoe2cvj" path="res://assets/village/RatDeath.png" id="1_g6g6d"]
+[ext_resource type="Texture2D" uid="uid://bqhoiib0cv2k4" path="res://assets/village/RatIdle.png" id="2_kqnqg"]
+[ext_resource type="Texture2D" uid="uid://t0pfwetakrow" path="res://assets/village/RatWalk.png" id="3_4wbon"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xflrf"]
+atlas = ExtResource("1_g6g6d")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ul3yp"]
+atlas = ExtResource("1_g6g6d")
+region = Rect2(32, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j63t2"]
+atlas = ExtResource("1_g6g6d")
+region = Rect2(64, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2ei7e"]
+atlas = ExtResource("1_g6g6d")
+region = Rect2(96, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qhpw"]
+atlas = ExtResource("2_kqnqg")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghbmp"]
+atlas = ExtResource("2_kqnqg")
+region = Rect2(32, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nl1w2"]
+atlas = ExtResource("2_kqnqg")
+region = Rect2(64, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ru3n5"]
+atlas = ExtResource("2_kqnqg")
+region = Rect2(96, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6do0l"]
+atlas = ExtResource("3_4wbon")
+region = Rect2(0, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dh3rk"]
+atlas = ExtResource("3_4wbon")
+region = Rect2(32, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tco0i"]
+atlas = ExtResource("3_4wbon")
+region = Rect2(64, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_403kd"]
+atlas = ExtResource("3_4wbon")
+region = Rect2(96, 16, 32, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2q2pw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xflrf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ul3yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j63t2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2ei7e")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qhpw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghbmp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nl1w2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ru3n5")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6do0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dh3rk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tco0i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_403kd")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Rat" type="Node2D" unique_id=305074254]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=503609387]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_2q2pw")
+animation = &"idle"

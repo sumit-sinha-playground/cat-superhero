@@ -4,6 +4,8 @@ const ALLOWED_GROUNDS = [1, 10, 11, 12]
 const ROCK_TYPES = [1, 2] 
 
 const PUPPY_SCENE = preload("res://scenes/village/puppy.tscn")
+const RAT_SCENE = preload("res://scenes/village/rat.tscn") 
+
 @export var puppy_spawn_x: int = 10000 
 
 @export_group("Generation Settings")
@@ -14,6 +16,11 @@ const PUPPY_SCENE = preload("res://scenes/village/puppy.tscn")
 @export var min_rock_spacing: int = 300 
 @export var start_x: int = -1000
 @export var end_x: int = 11000
+
+@export_group("Rat Settings")
+@export var rat_spawn_chance: float = 0.1
+@export var rat_speed: float = 200.0
+@export var rat_scale: float = 2.0 # Scaled up to be visible against 64px tiles
 
 @export_group("Boundaries")
 @export var left_limit: int = -300
@@ -34,6 +41,9 @@ var rock_textures = {}
 var tiles = []
 var rocks = [] 
 var stalls = [] 
+# Stores dictionaries: { "area": Area2D, "dir": int (-1 or 1), "sprite": AnimatedSprite2D }
+var active_rats = [] 
+
 var last_rock_x: float = -INF
 var last_stall_count: int = 0 
 var stall_texture: Texture2D = null
@@ -55,6 +65,7 @@ func _ready():
 	right_floor_y = current_floor_y
 	right_ground_id = 1
 	last_stall_count = 0
+	active_rats.clear()
 	
 	if tile_width <= 0:
 		_auto_detect_tile_width()
@@ -76,8 +87,25 @@ func _ready():
 	_setup_camera_limits()
 	_run_intro_camera_sequence()
 
-func _physics_process(_delta: float) -> void:
-	pass
+func _physics_process(delta: float) -> void:
+	# Handle Rat Movement
+	for rat_data in active_rats:
+		var area = rat_data["area"]
+		var dir = rat_data["dir"]
+		var sprite = rat_data["sprite"]
+		
+		# Move
+		area.position.x += dir * rat_speed * delta
+		
+		# Update Visuals
+		if sprite:
+			# If dir is -1 (Left), flip_h should be true (assuming texture faces right by default)
+			# Looking at your texture names, standard is usually right-facing.
+			# If texture is left-facing by default, adjust logic. 
+			# Assuming standard Right-facing sprites:
+			sprite.flip_h = (dir > 0) 
+			if sprite.animation != "walk":
+				sprite.play("walk")
 
 func _update_floor_y() -> void:
 	# This sets the y-coordinate to the bottom of the viewport
@@ -123,7 +151,6 @@ func _add_boundary_wall(x_pos: int, normal_dir: Vector2) -> void:
 func _run_intro_camera_sequence() -> void:
 	var player = await _get_player()
 	
-	# Configure player jump height based on stall height
 	_configure_player_jump_height(player)
 	
 	var camera = player.get_node_or_null("walking_car_camera_2D")
@@ -166,12 +193,10 @@ func _configure_player_jump_height(player: Node2D) -> void:
 	if not stall_texture: return
 	if "jump_velocity" not in player: return
 	
-	# Calculate the height we need to clear
 	var stall_height = stall_texture.get_height() * stall_scale
-	var buffer = 40.0 # Extra clearance
+	var buffer = 40.0 
 	var target_jump_height = stall_height + buffer
 	
-	# Calculate required velocity: v = sqrt(2 * g * h)
 	var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 	var required_velocity = -sqrt(2.0 * gravity * target_jump_height)
 	
@@ -185,16 +210,90 @@ func _try_spawn_decor(x_pos: int, y_base: int, forced_stall_count: int = -1) -> 
 		is_puppy_tile = true
 	
 	if not is_puppy_tile:
+		# Exclusive spawning logic: Rock OR Rat OR Stall
+		var spawned_something = false
+		
+		# 1. Try Rock
 		if randf() < rock_spawn_chance:
 			_spawn_rock(x_pos, y_base)
-		_determine_and_spawn_stall(x_pos, y_base, forced_stall_count)
+			spawned_something = true
+			
+		# 2. Try Rat (if no rock)
+		if not spawned_something and randf() < rat_spawn_chance:
+			_spawn_rat(x_pos, y_base)
+			spawned_something = true
+			
+		# 3. Try Stall (if nothing else, or forced)
+		# Note: Stalls have their own internal probability logic, but we run it
+		# if nothing else blocked the tile, or if we are forcing it.
+		if not spawned_something or forced_stall_count != -1:
+			_determine_and_spawn_stall(x_pos, y_base, forced_stall_count)
+
+func _spawn_rat(x_pos: int, y_base: int) -> void:
+	# Calculate Position
+	var floor_h = 64
+	if textures.has(1): floor_h = textures[1].get_height()
+	
+	# Instantiate Visual Scene
+	var rat_visual = RAT_SCENE.instantiate()
+	
+	# Create Physics Wrapper (Area2D)
+	var rat_area = Area2D.new()
+	rat_area.name = "Rat_Area_%d" % x_pos
+	
+	# Adjust Y: Base + Offset - Floor Height - (Half Rat Height roughly)
+	# Visual sprite is approx 16px high * scale. 
+	var visual_h = 16.0 * rat_scale
+	rat_area.position = Vector2(x_pos, y_base + floor_offset - floor_h - (visual_h * 2.0) - 20)
+	add_child(rat_area)
+	rat_area.z_index = 6 # In front of stalls
+	
+	# Add Visuals
+	rat_visual.scale = Vector2(rat_scale, rat_scale)
+	rat_area.add_child(rat_visual)
+	
+	# Add Collision
+	var col = CollisionShape2D.new()
+	var shape = RectangleShape2D.new()
+	# Hitbox size slightly smaller than visual
+	shape.size = Vector2(24 * rat_scale, 12 * rat_scale) 
+	col.shape = shape
+	rat_area.add_child(col)
+	
+	# Get AnimatedSprite reference
+	var sprite = rat_visual.get_node_or_null("AnimatedSprite2D")
+	if sprite:
+		sprite.play("walk")
+	
+	# Data Packet
+	var rat_data = {
+		"area": rat_area,
+		"dir": -1, # Start moving LEFT
+		"sprite": sprite
+	}
+	
+	active_rats.append(rat_data)
+	
+	# Connect Signals using a bind to pass the specific rat_data
+	rat_area.body_entered.connect(_on_rat_body_entered.bind(rat_data))
+
+func _on_rat_body_entered(body: Node2D, rat_data: Dictionary) -> void:
+	# 1. Collision with Player -> Game Over
+	if "walking_cat" in body.name:
+		call_deferred("_restart_scene")
+		
+	# 2. Collision with Stall -> Turn Around
+	if body.is_in_group("stall"):
+		rat_data["dir"] *= -1
+
+func _restart_scene():
+	get_tree().reload_current_scene()
 
 func _spawn_puppy(x_pos: int, y_base: int) -> void:
 	var puppy_inst = PUPPY_SCENE.instantiate()
 	var floor_h = 64
 	if textures.has(1): floor_h = textures[1].get_height()
 	
-	# Position puppy on top of the ground
 	puppy_inst.position = Vector2(x_pos, y_base + floor_offset - floor_h - 100)
 	add_child(puppy_inst)
 	puppy_node = puppy_inst
@@ -265,7 +364,6 @@ func _determine_and_spawn_stall(x_pos: int, y_base: int, forced_count: int = -1)
 	if forced_count != -1:
 		current_count = forced_count
 	else:
-		# Original logic if no forced count
 		var roll = randf()
 		if last_stall_count == 0:
 			if roll < 0.15: current_count = 1
@@ -286,6 +384,9 @@ func _spawn_stall(x_pos: int, y_base: int, count: int) -> void:
 	var ground_line = y_base + floor_offset - floor_h
 	for i in range(count):
 		var body = StaticBody2D.new()
+		# Add stall to group so rats can detect it
+		body.add_to_group("stall")
+		
 		var vertical_position = ground_line - (tex_h * i)
 		body.position = Vector2(x_pos, vertical_position)
 		add_child(body)
