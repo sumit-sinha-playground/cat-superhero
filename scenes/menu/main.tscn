@@ -87,7 +87,7 @@ text = "Suburbs"
 
 [node name="VillageButton" type="Button" parent="Menu/LevelContainer" unique_id=1748789044]
 layout_mode = 2
-text = "Village"
+text = "Pawburg"
 
 [node name="BuildingsButton" type="Button" parent="Menu/LevelContainer" unique_id=1723031544]
 layout_mode = 2
